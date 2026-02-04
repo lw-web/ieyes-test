@@ -13,6 +13,10 @@ export default defineConfig({
       path: '/counter',
       component: '@/pages/counter',
     },
+    {
+      path: '/api-demo',
+      component: '@/pages/api-demo',
+    },
   ],
   fastRefresh: {},
   webpack5: {},

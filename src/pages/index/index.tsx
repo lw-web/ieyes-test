@@ -79,9 +79,11 @@ const IndexPage: React.FC = () => {
       <Alert
         message="Demo 页面"
         description={
-          <span>
-            查看 <Link to="/counter">UmiJS Model 数据流 - 计数器 Demo</Link>
-          </span>
+          <Space>
+            <Link to="/counter">UmiJS Model 数据流 - 计数器 Demo</Link>
+            <span>|</span>
+            <Link to="/api-demo">API 请求封装 - Fetch Demo</Link>
+          </Space>
         }
         type="info"
         showIcon
