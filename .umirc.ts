@@ -9,6 +9,10 @@ export default defineConfig({
       path: '/',
       component: '@/pages/index',
     },
+    {
+      path: '/counter',
+      component: '@/pages/counter',
+    },
   ],
   fastRefresh: {},
   webpack5: {},
@@ -20,6 +24,8 @@ export default defineConfig({
   },
   // Ant Design 配置
   antd: {},
+  // Dva 数据流配置
+  dva: {},
   // Less 配置
   lessLoader: {
     modifyVars: {

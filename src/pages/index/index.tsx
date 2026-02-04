@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Card, Button, DatePicker, Space, Statistic, Row, Col, Typography } from 'antd';
+import { Card, Button, DatePicker, Space, Statistic, Row, Col, Typography, Alert } from 'antd';
+import { Link } from 'umi';
 import { Chart } from '@antv/g2';
 import type { Chart as G2Chart } from '@antv/g2';
 import './index.less';
@@ -74,6 +75,18 @@ const IndexPage: React.FC = () => {
           初始化的项目模板
         </Paragraph>
       </div>
+
+      <Alert
+        message="Demo 页面"
+        description={
+          <span>
+            查看 <Link to="/counter">UmiJS Model 数据流 - 计数器 Demo</Link>
+          </span>
+        }
+        type="info"
+        showIcon
+        style={{ marginTop: 16 }}
+      />
 
       <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
         <Col span={6}>
