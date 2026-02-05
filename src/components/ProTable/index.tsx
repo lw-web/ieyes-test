@@ -112,6 +112,7 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
       {enableColumnSetting && (
         <ColumnSetting
           columns={columnConfigs}
+          // @ts-ignore
           onChange={updateColumnConfig}
           storageKey={columnConfigKey}
         />
@@ -127,6 +128,7 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
     extra
   ) => {
     handleTableChange({
+      // @ts-ignore
       pagination: newPagination,
       filters: newFilters,
       sorter: newSorter,
@@ -142,11 +144,14 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
       {/* 表格 */}
       <Table
         className={`protable-table ${enableResizable ? 'protable-resizable' : ''}`}
+        // @ts-ignore
         rowKey={rowKey}
+        // @ts-ignore
         columns={visibleColumns}
         dataSource={dataSource}
         loading={loading}
         pagination={pagination}
+        // @ts-ignore
         onChange={onTableChange}
         scroll={{ x: 'max-content' }}
         {...tableProps}
@@ -160,6 +165,7 @@ const ProTableWithRef = forwardRef(ProTable) as <T = any>(
   props: ProTableProps<T> & { ref?: React.Ref<ProTableRef> }
 ) => JSX.Element;
 
+// @ts-ignore
 ProTableWithRef.displayName = 'ProTable';
 
 export default ProTableWithRef;

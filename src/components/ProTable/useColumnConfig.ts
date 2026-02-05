@@ -53,10 +53,7 @@ function loadConfigFromStorage<T>(
 /**
  * 保存列配置到 localStorage
  */
-function saveConfigToStorage<T>(
-  storageKey: string,
-  configs: ColumnConfigItem<T>[]
-): void {
+function saveConfigToStorage<T>(storageKey: string, configs: ColumnConfigItem<T>[]): void {
   if (typeof window === 'undefined') return;
 
   try {
@@ -115,25 +112,29 @@ export function useColumnConfig<T = any>(
   }, [columnConfigs]);
 
   // 更新列宽
-  const updateColumnWidth = useCallback((key: string, width: number) => {
-    setColumnConfigs((prev) => {
-      const updated = prev.map((col) =>
-        col.key === key ? { ...col, width } : col
-      );
-      if (storageKey) {
-        saveConfigToStorage(storageKey, updated);
-      }
-      return updated;
-    });
-  }, [storageKey]);
+  const updateColumnWidth = useCallback(
+    (key: string, width: number) => {
+      setColumnConfigs((prev) => {
+        const updated = prev.map((col) => (col.key === key ? { ...col, width } : col));
+        if (storageKey) {
+          saveConfigToStorage(storageKey, updated);
+        }
+        return updated;
+      });
+    },
+    [storageKey]
+  );
 
   // 更新列配置（批量更新，用于列设置）
-  const updateColumnConfig = useCallback((newConfigs: ColumnConfigItem<T>[]) => {
-    setColumnConfigs(newConfigs);
-    if (storageKey) {
-      saveConfigToStorage(storageKey, newConfigs);
-    }
-  }, [storageKey]);
+  const updateColumnConfig = useCallback(
+    (newConfigs: ColumnConfigItem<T>[]) => {
+      setColumnConfigs(newConfigs);
+      if (storageKey) {
+        saveConfigToStorage(storageKey, newConfigs);
+      }
+    },
+    [storageKey]
+  );
 
   // 手动保存配置
   const saveConfig = useCallback(() => {
