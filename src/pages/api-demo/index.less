@@ -1,0 +1,298 @@
+/**
+ * API Demo 页面样式
+ */
+
+@import '../../styles/mixins';
+
+// API 卡片
+.api-card {
+  border-radius: @radius-lg;
+  box-shadow: @card-shadow;
+  border: none;
+  height: 100%;
+
+  &:hover {
+    box-shadow: @card-shadow-hover;
+  }
+
+  &--login {
+    background: @gradient-primary;
+    color: #fff;
+
+    .ant-card-head {
+      background: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+
+      .ant-card-head-title {
+        color: #fff;
+      }
+    }
+
+    .ant-card-body {
+      background: transparent;
+    }
+
+    .ant-form-item-label > label {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .ant-input,
+    .ant-input-password {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      &:focus {
+        border-color: #fff;
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .ant-input-prefix {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .ant-btn-primary {
+      background: #fff;
+      border-color: #fff;
+      color: @primary-color;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+}
+
+// 登录表单
+.login-form {
+  .ant-form-item {
+    margin-bottom: @spacing-lg;
+  }
+}
+
+// API 按钮
+.api-btn {
+  height: 40px;
+  padding: 0 @spacing-lg;
+  border-radius: @radius-md;
+  font-weight: 500;
+  transition: all @transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: @shadow-md;
+  }
+
+  &--read {
+    background: @primary-color;
+    border-color: @primary-color;
+
+    &:hover {
+      background: @primary-hover;
+      border-color: @primary-hover;
+    }
+  }
+
+  &--create {
+    background: @success-color;
+    border-color: @success-color;
+    color: #fff;
+
+    &:hover {
+      background: #73d13d;
+      border-color: #73d13d;
+    }
+  }
+
+  &--update {
+    background: @warning-color;
+    border-color: @warning-color;
+    color: #fff;
+
+    &:hover {
+      background: #ffc53d;
+      border-color: #ffc53d;
+    }
+  }
+
+  &--delete {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 77, 79, 0.4);
+    }
+  }
+}
+
+// 响应数据卡片
+.response-card {
+  border-radius: @radius-md;
+  background: #1e1e1e;
+  border: none;
+
+  .ant-card-head {
+    background: #2d2d2d;
+    border-bottom: 1px solid #404040;
+    color: #fff;
+
+    .ant-card-head-title {
+      color: #fff;
+    }
+  }
+
+  .ant-card-body {
+    background: #1e1e1e;
+  }
+}
+
+.response-data {
+  margin: 0;
+  padding: @spacing-md;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-size: @font-size-sm;
+  line-height: @line-height-loose;
+  border-radius: @radius-sm;
+  overflow-x: auto;
+}
+
+// 功能特性卡片
+.features-card {
+  border-radius: @radius-lg;
+  box-shadow: @card-shadow;
+  border: none;
+}
+
+.feature-item {
+  text-align: center;
+  padding: @spacing-lg;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  border-radius: @radius-md;
+  transition: all @transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: @card-shadow-hover);
+    background: linear-gradient(135deg, #e8eef5 0%, #d5dce5 100%);
+  }
+
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    margin: 0 auto @spacing-md;
+
+    &--auth {
+      background: @gradient-primary;
+    }
+
+    &--error {
+      background: @gradient-warning;
+    }
+
+    &--json {
+      background: @gradient-success;
+    }
+
+    &--methods {
+      background: @gradient-info;
+    }
+  }
+
+  h4 {
+    margin: 0 0 @spacing-xs 0;
+    font-size: @font-size-md;
+    font-weight: 600;
+    color: @text-primary;
+  }
+
+  p {
+    margin: 0;
+    font-size: @font-size-sm;
+    color: @text-secondary;
+    line-height: @line-height-normal;
+  }
+}
+
+// 使用说明卡片
+.usage-card {
+  border-radius: @radius-lg;
+  box-shadow: @card-shadow;
+  border: none;
+}
+
+.usage-item {
+  padding: @spacing-md;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  border-radius: @radius-md;
+}
+
+.usage-code {
+  padding: @spacing-md;
+  background: #1e1e1e;
+  border-radius: @radius-md;
+
+  > pre {
+    margin: @spacing-sm 0 0;
+    padding: @spacing-md;
+    background: transparent;
+    color: #d4d4d4;
+    font-size: @font-size-sm;
+    line-height: @line-height-loose;
+    border-radius: @radius-sm;
+    overflow-x: auto;
+  }
+
+  .ant-typography {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+// 响应式
+@media (max-width: @screen-sm) {
+  .api-card {
+    &--login {
+      .ant-space {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  }
+
+  .api-btn {
+    width: 100%;
+  }
+
+  .feature-item {
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+    }
+
+    h4 {
+      font-size: @font-size-sm;
+    }
+
+    p {
+      font-size: @font-size-xs;
+    }
+  }
+}

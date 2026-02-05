@@ -1,0 +1,192 @@
+/**
+ * 可访问性样式
+ * 基于 WCAG 2.1 AA 标准
+ */
+
+// ========== 焦点可见性 ==========
+
+// 所有可聚焦元素的焦点样式
+*:focus-visible {
+  outline: 2px solid @primary-color;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+// 移除默认 outline 但保留 focus-visible
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// ========== 鼠标悬停反馈 ==========
+
+// 可点击元素添加指针样式
+a,
+button,
+[role="button"],
+[onclick],
+.clickable,
+.interactive {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// ========== 触摸目标尺寸 ==========
+
+// 最小触摸目标 44x44px (WCAG 2.5.5)
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ========== 减少动画 ==========
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ========== 屏幕阅读器专用 ==========
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// 可聚焦的屏幕阅读器元素（用于跳过导航）
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+// ========== 颜色对比度检查 ==========
+
+// 确保文本对比度符合 WCAG AA (4.5:1)
+.text-contrast-safe {
+  // 浅色背景上的深色文本
+  &.light {
+    color: #0f172a; // slate-900
+  }
+
+  // 深色背景上的浅色文本
+  &.dark {
+    color: #f8fafc; // slate-50
+  }
+}
+
+// ========== 高对比度模式支持 ==========
+
+@media (prefers-contrast: high) {
+  .ant-card {
+    border: 2px solid currentColor;
+  }
+
+  .ant-btn {
+    border-width: 2px;
+  }
+}
+
+// ========== 跳过导航链接 ==========
+
+.skip-to-content {
+  .sr-only();
+  .sr-only-focusable();
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: @spacing-md @spacing-lg;
+  background: @primary-color;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:focus {
+    clip: auto;
+  }
+}
+
+// ========== 加载状态 ==========
+
+// 骨架屏动画
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background: #e0e0e0;
+  }
+}
+
+// ========== 错误和警告 ==========
+
+.error-message {
+  color: @error-color;
+  font-weight: 500;
+
+  &::before {
+    content: '⚠ ';
+    speak: none;
+  }
+}
+
+.warning-message {
+  color: @warning-color;
+  font-weight: 500;
+
+  &::before {
+    content: '⚠ ';
+    speak: none;
+  }
+}
+
+.success-message {
+  color: @success-color;
+  font-weight: 500;
+
+  &::before {
+    content: '✓ ';
+    speak: none;
+  }
+}

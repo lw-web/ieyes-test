@@ -1,0 +1,271 @@
+/**
+ * 通用样式混合 (Mixins)
+ * 可复用的样式片段
+ */
+
+@import './theme';
+
+// ========== 卡片样式 ==========
+
+.card-base() {
+  background: @bg-card;
+  border-radius: @radius-md;
+  box-shadow: @card-shadow;
+  transition: all @transition-base;
+}
+
+.card-hover() {
+  .card-base();
+
+  &:hover {
+    box-shadow: @card-shadow-hover;
+    transform: translateY(-4px);
+  }
+}
+
+.card-gradient(@gradient: @gradient-primary) {
+  .card-base();
+
+  background: @gradient;
+  color: #fff;
+
+  .ant-typography {
+    color: #fff !important;
+  }
+}
+
+// ========== 按钮样式 ==========
+
+.btn-base() {
+  height: 40px;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all @transition-base;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: @shadow-md;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-primary() {
+  .btn-base();
+  background: @primary-color;
+  color: #fff;
+
+  &:hover {
+    background: @primary-hover;
+  }
+}
+
+.btn-outline() {
+  .btn-base();
+  background: transparent;
+  border: 2px solid @primary-color;
+  color: @primary-color;
+
+  &:hover {
+    background: @primary-color;
+    color: #fff;
+  }
+}
+
+// ========== 动画 ==========
+
+.fade-in(@duration: @transition-base) {
+  animation: fadeIn @duration @easing-ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-up(@duration: @transition-base) {
+  animation: slideUp @duration @easing-ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scale-in(@duration: @transition-base) {
+  animation: scaleIn @duration @easing-bounce;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ========== 文本样式 ==========
+
+.text-gradient(@gradient: @gradient-primary) {
+  background: @gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis-multiline(@lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: @lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ========== Flexbox 工具 ==========
+
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+// ========== 滚动条样式 ==========
+
+.custom-scrollbar(@width: 6px, @thumb: rgba(0, 0, 0, 0.2)) {
+  &::-webkit-scrollbar {
+    width: @width;
+    height: @width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: @thumb;
+    border-radius: @width;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+// ========== 玻璃态效果 ==========
+
+.glass(@opacity: 0.8, @blur: 10px) {
+  background: rgba(255, 255, 255, @opacity);
+  backdrop-filter: blur(@blur);
+  -webkit-backdrop-filter: blur(@blur);
+}
+
+// ========== 脉冲动画 ==========
+
+.pulse(@color: @primary-color) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: @color;
+    opacity: 0;
+    animation: pulse 2s @easing-ease-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+// ========== 加载骨架屏 ==========
+
+.skeleton(@background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)) {
+  background: @background;
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// ========== 响应式容器 ==========
+
+.responsive-container() {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 @spacing-lg;
+}
+
+.responsive-container-fluid() {
+  width: 100%;
+  padding: 0 @spacing-lg;
+}
+
+// ========== 绝对居中 ==========
+
+.absolute-center() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.absolute-full() {
+  position: absolute;
+  inset: 0;
+}

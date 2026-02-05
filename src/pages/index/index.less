@@ -1,32 +1,260 @@
-.index-page {
-  padding: 24px;
-  background-color: #f0f2f5;
-  min-height: 100%;
+/**
+ * 首页样式
+ */
 
+@import '../../styles/mixins';
+
+.index-page {
   .header {
-    background: #fff;
-    padding: 24px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    background: @bg-card;
+    padding: @spacing-xl;
+    border-radius: @radius-lg;
+    box-shadow: @card-shadow;
+    margin-bottom: @spacing-lg;
+  }
+
+  // Demo 卡片
+  .demo-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover .demo-card-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  .demo-section {
+    margin-bottom: @spacing-xl;
+
+    .section-header {
+      margin-bottom: @spacing-lg;
+      text-align: center;
+
+      .section-title {
+        font-size: @font-size-xxl;
+        font-weight: 600;
+        margin: 0 0 @spacing-sm 0;
+        background: @gradient-primary;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .section-subtitle {
+        font-size: @font-size-md;
+        color: @text-secondary;
+        margin: 0;
+      }
+    }
   }
 
   .demo-card {
-    transition: all 0.3s ease;
+    height: 100%;
+    border-radius: @radius-lg;
+    padding: @spacing-lg;
+    position: relative;
+    overflow: hidden;
+    transition: all @transition-base;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: @gradient-primary;
+      opacity: 0;
+      transition: opacity @transition-base;
+    }
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px);
+      box-shadow: @shadow-lg;
+
+      &::before {
+        opacity: 1;
+      }
+
+      .demo-card-icon {
+        transform: scale(1.1);
+      }
+    }
+
+    &--purple .demo-card-icon {
+      background: @gradient-primary;
+    }
+
+    &--green .demo-card-icon {
+      background: @gradient-success;
+    }
+
+    &--blue .demo-card-icon {
+      background: @gradient-card;
+    }
+
+    .ant-card-body {
+      padding: 0;
     }
 
     .demo-card-icon {
-      font-size: 48px;
-      color: #1890ff;
-      margin-bottom: 8px;
+      width: 64px;
+      height: 64px;
+      border-radius: @radius-lg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: #fff;
+      margin-bottom: @spacing-md;
+      transition: transform @transition-base;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    .demo-card-title {
+      font-size: @font-size-lg;
+      font-weight: 600;
+      margin: 0 0 @spacing-xs 0;
+      color: @text-primary;
+    }
+
+    .demo-card-subtitle {
+      font-size: @font-size-sm;
+      color: @text-secondary;
+      margin: 0 0 @spacing-sm 0;
+    }
+
+    .demo-card-desc {
+      font-size: @font-size-xs;
+      color: @text-tertiary;
+      margin: 0 0 @spacing-md 0;
+      line-height: @line-height-normal;
+      min-height: 40px;
+    }
+
+    .demo-card-tags {
+      display: flex;
+      gap: @spacing-xs;
+      flex-wrap: wrap;
+    }
+
+    .demo-card-arrow {
+      position: absolute;
+      top: @spacing-lg;
+      right: @spacing-lg;
+      font-size: @font-size-lg;
+      color: @text-tertiary;
+      transition: transform @transition-base;
+    }
+  }
+
+  // 统计卡片
+  .stats-row {
+    margin-bottom: @spacing-xl;
+  }
+
+  .stat-card {
+    border-radius: @radius-md;
+    border: none;
+    box-shadow: @card-shadow;
+    transition: all @transition-base;
+
+    &:hover {
+      box-shadow: @card-shadow-hover;
+      transform: translateY(-4px);
+    }
+
+    .ant-statistic-title {
+      font-size: @font-size-sm;
+      color: @text-secondary;
+    }
+
+    .ant-statistic-content {
+      font-size: @font-size-xxl;
+      font-weight: 600;
+    }
+
+    &--up {
+      border-left: 4px solid @success-color;
+    }
+
+    &--down {
+      border-left: 4px solid @error-color;
+    }
+  }
+
+  // 图表卡片
+  .chart-card {
+    border-radius: @radius-lg;
+    box-shadow: @card-shadow;
+    margin-bottom: @spacing-lg;
+
+    .chart-container {
+      min-height: 300px;
+    }
+  }
+
+  // 组件展示
+  .component-showcase {
+    border-radius: @radius-lg;
+    box-shadow: @card-shadow;
+  }
+}
+
+// PageLayout 渐变头部样式
+.page-layout.gradient-header {
+  .page-layout-header {
+    background: @gradient-primary;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+  }
+}
+
+// 响应式
+@media (max-width: @screen-sm) {
+  .index-page {
+    .demo-card {
+      .demo-card-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+      }
+
+      .demo-card-desc {
+        min-height: auto;
+      }
+
+      .demo-card-arrow {
+        display: none;
+      }
+    }
+
+    .stat-card {
+      .ant-statistic-content {
+        font-size: @font-size-xl;
+      }
     }
   }
 }

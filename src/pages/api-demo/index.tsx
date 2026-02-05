@@ -1,17 +1,30 @@
 /**
  * API 请求示例页面
+ * 演示封装的 fetch 请求方法进行 API 调用
  */
+
 import React, { FC, useState } from 'react';
-import { Card, Button, Input, Form, Space, Typography, message, Alert } from 'antd';
-import { UserOutlined, LockOutlined, HomeOutlined } from '@ant-design/icons';
+import { Card, Button, Input, Form, Space, Typography, message, Alert, Row, Col } from 'antd';
+import {
+  UserOutlined,
+  LockOutlined,
+  LoginOutlined,
+  SearchOutlined,
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  CodeOutlined,
+  SafetyOutlined,
+  ApiOutlined,
+  ThunderboltOutlined,
+} from '@ant-design/icons';
 // @ts-ignore
 import { login, getUserList, createUser, updateUser, deleteUser } from '@/services';
 // @ts-ignore
-import { Link } from 'umi';
-// @ts-ignore
 import type { LoginParams } from '@/services';
+import PageLayout from '@/components/PageLayout';
 
-const { Title, Paragraph, Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 const ApiDemoPage: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +36,6 @@ const ApiDemoPage: FC = () => {
     setLoading(true);
     try {
       const result = await login(values);
-      // 存储 token 到 localStorage
       localStorage.setItem('token', result.token);
       message.success('登录成功！');
       setUserData(result.userInfo);
@@ -40,7 +52,6 @@ const ApiDemoPage: FC = () => {
     try {
       const result = await getUserList({ current: 1, pageSize: 10 });
       message.success(`获取成功，共 ${result.total} 条数据`);
-      console.log('用户列表:', result);
       setUserData(result);
     } catch (error) {
       message.error(error instanceof Error ? error.message : '获取失败');
@@ -59,7 +70,7 @@ const ApiDemoPage: FC = () => {
         email: 'test@example.com',
       });
       message.success('创建成功！');
-      console.log('创建的用户:', result);
+      setUserData(result);
     } catch (error) {
       message.error(error instanceof Error ? error.message : '创建失败');
     } finally {
@@ -75,7 +86,7 @@ const ApiDemoPage: FC = () => {
         nickname: '更新后的昵称',
       });
       message.success('更新成功！');
-      console.log('更新后的用户:', result);
+      setUserData(result);
     } catch (error) {
       message.error(error instanceof Error ? error.message : '更新失败');
     } finally {
@@ -97,116 +108,222 @@ const ApiDemoPage: FC = () => {
   };
 
   return (
-    <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
-      <Link to="/">
-        <Button
-          type="primary"
-          icon={<HomeOutlined />}
-          style={{ marginBottom: 16 }}
-        >
-          返回首页
-        </Button>
-      </Link>
-      <Card style={{ marginBottom: 16 }}>
-        <Title level={2}>API 请求示例</Title>
-        <Paragraph>
-          本页面演示如何使用封装的 <code>fetch</code> 请求方法进行 API 调用。
-        </Paragraph>
-      </Card>
-
-      <Alert
-        message="提示"
-        description="当前使用 Mock 数据，实际使用时请替换为真实的 API 地址。"
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-      />
-
-      {/* 登录示例 */}
-      <Card title="登录示例" style={{ marginBottom: 16 }}>
-        <Form form={loginForm} onFinish={handleLogin} style={{ maxWidth: 400 }}>
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: '请输入用户名' }]}
+    <PageLayout
+      title="API 请求封装 - Fetch Demo"
+      description="本页面演示如何使用封装的 fetch 请求方法进行 API 调用，包含登录、CRUD 操作、统一错误处理等功能。"
+      breadcrumbs={[{ label: 'API 请求 Demo' }]}
+    >
+      <Row gutter={[24, 24]}>
+        {/* 登录示例 */}
+        <Col xs={24} lg={10}>
+          <Card
+            title={
+              <Space>
+                <LoginOutlined />
+                登录示例
+              </Space>
+            }
+            className="api-card api-card--login"
           >
-            <Input prefix={<UserOutlined />} placeholder="用户名" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: '请输入密码' }]}
-          >
-            <Input.Password prefix={<LockOutlined />} placeholder="密码" />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              登录
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+            <Form
+              form={loginForm}
+              onFinish={handleLogin}
+              layout="vertical"
+              className="login-form"
+            >
+              <Form.Item
+                label="用户名"
+                name="username"
+                rules={[{ required: true, message: '请输入用户名' }]}
+              >
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="请输入用户名"
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                label="密码"
+                name="password"
+                rules={[{ required: true, message: '请输入密码' }]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="请输入密码"
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  size="large"
+                  block
+                  icon={<LoginOutlined />}
+                >
+                  登录
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Col>
 
-      {/* CRUD 示例 */}
-      <Card title="CRUD 操作示例">
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Space wrap>
-            <Button type="primary" onClick={handleGetUserList} loading={loading}>
-              获取用户列表
-            </Button>
-            <Button onClick={handleCreateUser} loading={loading}>
-              创建用户
-            </Button>
-            <Button onClick={handleUpdateUser} loading={loading}>
-              更新用户
-            </Button>
-            <Button danger onClick={handleDeleteUser} loading={loading}>
-              删除用户
-            </Button>
+        {/* CRUD 操作 */}
+        <Col xs={24} lg={14}>
+          <Card
+            title={
+              <Space>
+                <ApiOutlined />
+                CRUD 操作示例
+              </Space>
+            }
+            className="api-card"
+          >
+            <Space direction="vertical" size="large" style={{ width: '100%' }}>
+              <Space wrap>
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  onClick={handleGetUserList}
+                  loading={loading}
+                  className="api-btn api-btn--read"
+                >
+                  获取用户列表
+                </Button>
+                <Button
+                  icon={<PlusOutlined />}
+                  onClick={handleCreateUser}
+                  loading={loading}
+                  className="api-btn api-btn--create"
+                >
+                  创建用户
+                </Button>
+                <Button
+                  icon={<EditOutlined />}
+                  onClick={handleUpdateUser}
+                  loading={loading}
+                  className="api-btn api-btn--update"
+                >
+                  更新用户
+                </Button>
+                <Button
+                  danger
+                  icon={<DeleteOutlined />}
+                  onClick={handleDeleteUser}
+                  loading={loading}
+                  className="api-btn api-btn--delete"
+                >
+                  删除用户
+                </Button>
+              </Space>
+
+              {/* 响应数据展示 */}
+              {userData && (
+                <Card
+                  title={
+                    <Space>
+                      <CodeOutlined />
+                      响应数据
+                    </Space>
+                  }
+                  size="small"
+                  className="response-card"
+                >
+                  <pre className="response-data">
+                    {JSON.stringify(userData, null, 2)}
+                  </pre>
+                </Card>
+              )}
+            </Space>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* 功能特性 */}
+      <Card
+        title={
+          <Space>
+            <ThunderboltOutlined />
+            功能特性
           </Space>
-
-          {/* 响应数据展示 */}
-          {userData && (
-            <Card title="响应数据" size="small" style={{ marginTop: 16 }}>
-              <pre style={{ background: '#f5f5f5', padding: 12, borderRadius: 4 }}>
-                {JSON.stringify(userData, null, 2)}
-              </pre>
-            </Card>
-          )}
-        </Space>
+        }
+        className="features-card"
+      >
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} lg={6}>
+            <div className="feature-item">
+              <div className="feature-icon feature-icon--auth">
+                <SafetyOutlined />
+              </div>
+              <h4>自动 Token</h4>
+              <p>从 localStorage/sessionStorage 自动获取并添加到请求头</p>
+            </div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <div className="feature-item">
+              <div className="feature-icon feature-icon--error">
+                <ApiOutlined />
+              </div>
+              <h4>错误处理</h4>
+              <p>统一处理 401、403、404、500 等常见错误码</p>
+            </div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <div className="feature-item">
+              <div className="feature-icon feature-icon--json">
+                <CodeOutlined />
+              </div>
+              <h4>JSON 解析</h4>
+              <p>自动解析 JSON 响应，返回 data 字段</p>
+            </div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <div className="feature-item">
+              <div className="feature-icon feature-icon--methods">
+                <ApiOutlined />
+              </div>
+              <h4>多种请求</h4>
+              <p>支持 GET、POST、PUT、DELETE、表单提交等</p>
+            </div>
+          </Col>
+        </Row>
       </Card>
 
       {/* 使用说明 */}
-      <Card title="使用说明" style={{ marginTop: 16 }}>
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <div>
-            <Text strong>1. 请求封装位置：</Text>
-            <Paragraph code>src/services/request.ts</Paragraph>
-          </div>
-          <div>
-            <Text strong>2. API 定义位置：</Text>
-            <Paragraph code>src/services/user.ts</Paragraph>
-          </div>
-          <div>
-            <Text strong>3. 使用方式：</Text>
-            <Paragraph>
-              <pre>{`import { login, getUserList } from '@/services';
+      <Card
+        title={
+          <Space>
+            <CodeOutlined />
+            使用说明
+          </Space>
+        }
+        className="usage-card"
+      >
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={12}>
+            <div className="usage-item">
+              <Text strong>1. 请求封装位置：</Text>
+              <Paragraph code>src/services/request.ts</Paragraph>
+            </div>
+          </Col>
+          <Col xs={24} md={12}>
+            <div className="usage-item">
+              <Text strong>2. API 定义位置：</Text>
+              <Paragraph code>src/services/user.ts</Paragraph>
+            </div>
+          </Col>
+        </Row>
+        <div className="usage-code">
+          <Text strong>3. 使用方式：</Text>
+          <pre>{`import { login, getUserList } from '@/services';
 
 // 调用 API
 const result = await login({ username, password });
 const list = await getUserList({ current: 1, pageSize: 10 });`}</pre>
-            </Paragraph>
-          </div>
-          <div>
-            <Text strong>4. 功能特性：</Text>
-            <ul>
-              <li>自动从 localStorage/sessionStorage 获取 token 并添加到请求头</li>
-              <li>统一处理常见错误码（401、403、404、500 等）</li>
-              <li>自动解析 JSON 响应，返回 data 字段</li>
-              <li>支持 GET、POST、PUT、DELETE、表单提交等请求方式</li>
-            </ul>
-          </div>
-        </Space>
+        </div>
       </Card>
-    </div>
+    </PageLayout>
   );
 };
 

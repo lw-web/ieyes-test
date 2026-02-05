@@ -1,4 +1,13 @@
-// 全局样式
+/**
+ * 全局样式
+ * 包含基础重置、可访问性、UX 最佳实践
+ */
+
+@import './styles/theme';
+@import './styles/accessibility';
+
+// ========== 基础重置 ==========
+
 * {
   margin: 0;
   padding: 0;
@@ -12,10 +21,273 @@ body,
   width: 100%;
 }
 
+// ========== 基础排版 ==========
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: @font-size-base;
+  line-height: @line-height-normal;
+  color: @text-primary;
+  background: @bg-page;
+
+  // 改善文本渲染
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+// ========== 链接样式 ==========
+
+a {
+  color: @primary-color;
+  text-decoration: none;
+  transition: color @transition-base;
+
+  &:hover {
+    color: @primary-hover;
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+  }
+
+  // 外部链接样式
+  &[href*="http"]:not([href*="localhost"]):not([href*="127.0.0.1"]) {
+    &::after {
+      content: '↗';
+      font-size: 0.8em;
+      margin-left: 2px;
+      speak: none;
+    }
+  }
+}
+
+// ========== 按钮增强 ==========
+
+button,
+.ant-btn {
+  // 确保触摸目标最小尺寸
+  min-height: 40px;
+  min-width: 40px;
+
+  // 禁用状态优化
+  &[disabled],
+  &.ant-btn-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  // 加载状态优化
+  &.ant-btn-loading {
+    pointer-events: none;
+  }
+}
+
+// ========== 表单增强 ==========
+
+input,
+textarea,
+select,
+.ant-input,
+.ant-select-selector {
+  font-size: @font-size-base;
+  line-height: @line-height-normal;
+
+  &:focus-visible {
+    border-color: @primary-color;
+    box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+  }
+
+  // 必填字段标识
+  &[required],
+  &.ant-input-required {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23ff4d4f'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+}
+
+// ========== 卡片增强 ==========
+
+.ant-card {
+  // 确保卡片内容可访问
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // 可点击卡片
+  &.clickable,
+  &[role="button"] {
+    cursor: pointer;
+    transition: all @transition-base;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: @card-shadow-hover);
+    }
+  }
+}
+
+// ========== 图片增强 ==========
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+
+  // 响应式图片
+  &[loading="lazy"] {
+    background: @bg-skeleton;
+    min-height: 100px;
+  }
+}
+
+// ========== 代码块样式 ==========
+
+code,
+pre {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9em;
+}
+
+code {
+  padding: 2px 6px;
+  background: @bg-skeleton;
+  border-radius: @radius-sm;
+  color: @error-color;
+}
+
+pre {
+  padding: @spacing-md;
+  background: @bg-skeleton;
+  border-radius: @radius-md;
+  overflow-x: auto;
+  line-height: @line-height-loose;
+
+  code {
+    padding: 0;
+    background: transparent;
+    color: inherit;
+  }
+}
+
+// ========== 滚动条样式 ==========
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: @bg-card;
+}
+
+::-webkit-scrollbar-thumb {
+  background: @border-color-base;
+  border-radius: 4px;
+
+  &:hover {
+    background: @border-color-split;
+  }
+}
+
+// Firefox 滚动条
+* {
+  scrollbar-width: thin;
+  scrollbar-color: @border-color-base @bg-card;
+}
+
+// ========== 选择文本样式 ==========
+
+::selection {
+  background: fade(@primary-color, 20%);
+  color: @text-primary;
+}
+
+::-moz-selection {
+  background: fade(@primary-color, 20%);
+  color: @text-primary;
+}
+
+// ========== 打印样式 ==========
+
+@media print {
+  .no-print,
+  .ant-breadcrumb,
+  button,
+  a[href^="#"] {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &::after {
+      content: ' (' attr(href) ')';
+      font-size: 0.8em;
+      word-break: break-all;
+    }
+  }
+
+  .ant-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid @border-color-base;
+  }
+}
+
+// ========== 工具类 ==========
+
+// 文本省略
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// 居中
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// 清除浮动
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+// ========== Z-index 管理 ==========
+
+.z-index {
+  &-dropdown { z-index: 1000; }
+  &-sticky { z-index: 1020; }
+  &-fixed { z-index: 1030; }
+  &-modal-backdrop { z-index: 1040; }
+  &-modal { z-index: 1050; }
+  &-popover { z-index: 1060; }
+  &-tooltip { z-index: 1070; }
+  &-notification { z-index: 1080; }
 }

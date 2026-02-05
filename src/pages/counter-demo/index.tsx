@@ -1,133 +1,198 @@
-import React, { FC } from 'react';
-import {
-  Card,
-  Button,
-  Space,
-  Statistic,
-  Row,
-  Col,
-  Typography,
-  Divider,
-  Input,
-  message,
-} from 'antd';
+/**
+ * 计数器 Demo 页面
+ * 展示 UmiJS Model 数据流管理
+ */
+
+import React, { FC, useState } from 'react';
+import { Card, Button, Space, Divider, Input, Row, Col, message } from 'antd';
 import {
   PlusOutlined,
   MinusOutlined,
   ReloadOutlined,
   ThunderboltOutlined,
-  HomeOutlined,
 } from '@ant-design/icons';
 // @ts-ignore
-import { useModel, Link } from 'umi';
+import { useModel } from 'umi';
+import PageLayout from '@/components/PageLayout';
+import './index.less';
 
-const { Title, Paragraph } = Typography;
-
-// 独立的计数器组件
-interface CounterWidgetProps {
-  count: number;
-  onIncrement: (step?: number) => void;
-  onDecrement: (step?: number) => void;
-  onReset: () => void;
-  onAsyncAdd: (value: number) => void;
-}
-
-const CounterWidget: FC<CounterWidgetProps> = ({
-  count,
-  onIncrement,
-  onDecrement,
-  onReset,
-  onAsyncAdd,
+// 计数器显示组件
+const CounterDisplay: FC<{ value: number; onChange?: (value: number) => void }> = ({
+  value,
 }) => {
-  const [stepValue, setStepValue] = React.useState(1);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    setStepValue(Number.isNaN(value) ? 1 : value);
+  const getDisplayColor = () => {
+    if (value > 0) return '#52c41a';
+    if (value < 0) return '#ff4d4f';
+    return '#1890ff';
   };
 
   return (
-    <Card
-      title="计数器组件"
-      extra={
-        <Button type="primary" danger icon={<ReloadOutlined />} onClick={onReset}>
-          重置
+    <div className="counter-display">
+      <div className="counter-value" style={{ color: getDisplayColor() }}>
+        {value}
+      </div>
+      <div className="counter-label">当前计数</div>
+    </div>
+  );
+};
+
+// 操作按钮组件
+const ActionButtons: FC<{
+  onIncrement: (step: number) => void;
+  onDecrement: (step: number) => void;
+  onReset: () => void;
+  stepValue: number;
+}> = ({ onIncrement, onDecrement, onReset, stepValue }) => {
+  return (
+    <Space className="action-buttons" size="middle">
+      <Button
+        type="primary"
+        size="large"
+        icon={<PlusOutlined />}
+        onClick={() => onIncrement(1)}
+        className="action-btn action-btn--primary"
+      >
+        加 1
+      </Button>
+      <Button
+        size="large"
+        icon={<MinusOutlined />}
+        onClick={() => onDecrement(1)}
+        className="action-btn"
+      >
+        减 1
+      </Button>
+      <Button
+        danger
+        size="large"
+        icon={<ReloadOutlined />}
+        onClick={onReset}
+        className="action-btn action-btn--danger"
+      >
+        重置
+      </Button>
+    </Space>
+  );
+};
+
+// 步长控制组件
+const StepControl: FC<{
+  stepValue: number;
+  onChange: (value: number) => void;
+  onIncrement: (step: number) => void;
+  onDecrement: (step: number) => void;
+}> = ({ stepValue, onChange, onIncrement, onDecrement }) => {
+  return (
+    <Card className="control-card" title="自定义步长">
+      <Space size="large">
+        <Input
+          type="number"
+          placeholder="步长"
+          value={stepValue}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            onChange(Number.isNaN(value) ? 1 : value);
+          }}
+          className="step-input"
+          min={1}
+        />
+        <Button
+          type="dashed"
+          icon={<PlusOutlined />}
+          onClick={() => onIncrement(stepValue)}
+        >
+          增加 {stepValue}
         </Button>
-      }
-    >
-      <Row gutter={16} style={{ marginBottom: 24 }}>
-        <Col span={24} style={{ textAlign: 'center' }}>
-          <Statistic
-            title="当前计数"
-            value={count}
-            valueStyle={{ color: count > 0 ? '#3f8600' : count < 0 ? '#cf1322' : '#1890ff' }}
-          />
+        <Button
+          type="dashed"
+          icon={<MinusOutlined />}
+          onClick={() => onDecrement(stepValue)}
+        >
+          减少 {stepValue}
+        </Button>
+      </Space>
+    </Card>
+  );
+};
+
+// 异步操作组件
+const AsyncAction: FC<{
+  stepValue: number;
+  onAsyncAdd: (value: number) => void;
+}> = ({ stepValue, onAsyncAdd }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleAsyncClick = () => {
+    setLoading(true);
+    const hide = message.loading('正在处理...', 0);
+
+    setTimeout(() => {
+      hide();
+      setLoading(false);
+      onAsyncAdd(stepValue);
+      message.success('异步增加成功！');
+    }, 1000);
+  };
+
+  return (
+    <Card className="control-card" title="异步操作（模拟 API 调用）">
+      <Button
+        type="primary"
+        ghost
+        size="large"
+        icon={<ThunderboltOutlined />}
+        onClick={handleAsyncClick}
+        loading={loading}
+        className="async-btn"
+      >
+        异步增加 {stepValue}
+      </Button>
+    </Card>
+  );
+};
+
+// 使用说明组件
+const UsageGuide: FC = () => {
+  return (
+    <Card className="guide-card" title="使用说明">
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12}>
+          <div className="guide-item">
+            <div className="guide-icon">🎯</div>
+            <div className="guide-content">
+              <h4>基础操作</h4>
+              <p>点击按钮增加或减少计数值</p>
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} sm={12}>
+          <div className="guide-item">
+            <div className="guide-icon">📏</div>
+            <div className="guide-content">
+              <h4>自定义步长</h4>
+              <p>输入自定义步长值，按指定数值增加或减少</p>
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} sm={12}>
+          <div className="guide-item">
+            <div className="guide-icon">⚡</div>
+            <div className="guide-content">
+              <h4>异步操作</h4>
+              <p>模拟异步 API 调用，延迟 1 秒后更新状态</p>
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} sm={12}>
+          <div className="guide-item">
+            <div className="guide-icon">🔄</div>
+            <div className="guide-content">
+              <h4>状态共享</h4>
+              <p>状态存储在 Model 中，可在多个组件间共享</p>
+            </div>
+          </div>
         </Col>
       </Row>
-
-      <Divider />
-
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
-        {/* 基础操作 */}
-        <div>
-          <Paragraph strong>基础操作：</Paragraph>
-          <Space>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => onIncrement(1)}
-              size="large"
-            >
-              加 1
-            </Button>
-            <Button icon={<MinusOutlined />} onClick={() => onDecrement(1)} size="large">
-              减 1
-            </Button>
-          </Space>
-        </div>
-
-        {/* 自定义步长 */}
-        <div>
-          <Paragraph strong>自定义步长：</Paragraph>
-          <Space>
-            <Input
-              type="number"
-              placeholder="步长"
-              value={stepValue}
-              onChange={handleInputChange}
-              style={{ width: 100 }}
-            />
-            <Button type="dashed" icon={<PlusOutlined />} onClick={() => onIncrement(stepValue)}>
-              增加 {stepValue}
-            </Button>
-            <Button type="dashed" icon={<MinusOutlined />} onClick={() => onDecrement(stepValue)}>
-              减少 {stepValue}
-            </Button>
-          </Space>
-        </div>
-
-        {/* 异步操作 */}
-        <div>
-          <Paragraph strong>异步操作 (模拟 API 调用)：</Paragraph>
-          <Space>
-            <Button
-              type="primary"
-              ghost
-              icon={<ThunderboltOutlined />}
-              onClick={() => {
-                const hide = message.loading('正在处理...', 0);
-                setTimeout(() => {
-                  hide();
-                  onAsyncAdd(stepValue);
-                  message.success('异步增加成功！');
-                }, 500);
-              }}
-            >
-              异步增加 {stepValue}
-            </Button>
-          </Space>
-        </div>
-      </Space>
     </Card>
   );
 };
@@ -135,6 +200,7 @@ const CounterWidget: FC<CounterWidgetProps> = ({
 // 页面组件
 const CounterPage: FC = () => {
   const { num, setNum } = useModel('counter');
+  const [stepValue, setStepValue] = useState(1);
 
   const increment = (step: number = 1) => {
     setNum(num + step);
@@ -146,60 +212,51 @@ const CounterPage: FC = () => {
 
   const reset = () => {
     setNum(0);
+    message.info('计数器已重置');
   };
 
   const asyncAdd = (value: number) => {
-    setTimeout(() => {
-      setNum(num + value);
-    }, 1000);
+    setNum(num + value);
   };
 
   return (
-    <div className="counter-page">
-      <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
-        <Link to="/">
-          <Button
-            type="primary"
-            icon={<HomeOutlined />}
-            style={{ marginBottom: 16 }}
-          >
-            返回首页
-          </Button>
-        </Link>
-        <Card style={{ marginBottom: 16 }}>
-          <Title level={2}>UmiJS Model 数据流 - 计数器 Demo</Title>
-          <Paragraph>
-            本示例展示如何使用 UmiJS 的 <code>useModel</code> Hook 方案实现状态管理。数据存储在{' '}
-            <code>src/models/counter.ts</code> 中，通过 Hook 获取状态和修改方法。
-          </Paragraph>
-        </Card>
+    <PageLayout
+      title="UmiJS Model 数据流 - 计数器 Demo"
+      description="本示例展示如何使用 UmiJS 的 useModel Hook 方案实现状态管理。数据存储在 src/models/counter.ts 中，通过 Hook 获取状态和修改方法。"
+      breadcrumbs={[{ label: '计数器 Demo' }]}
+    >
+      <Row gutter={[24, 24]}>
+        {/* 计数器主卡片 */}
+        <Col xs={24} lg={12}>
+          <Card className="counter-main-card">
+            <CounterDisplay value={num} />
+            <Divider className="counter-divider" />
+            <ActionButtons
+              onIncrement={increment}
+              onDecrement={decrement}
+              onReset={reset}
+              stepValue={stepValue}
+            />
+          </Card>
+        </Col>
 
-        <CounterWidget
-          count={num}
-          onIncrement={increment}
-          onDecrement={decrement}
-          onReset={reset}
-          onAsyncAdd={asyncAdd}
-        />
+        {/* 控制面板 */}
+        <Col xs={24} lg={12}>
+          <Space direction="vertical" size="large" style={{ width: '100%' }}>
+            <StepControl
+              stepValue={stepValue}
+              onChange={setStepValue}
+              onIncrement={increment}
+              onDecrement={decrement}
+            />
+            <AsyncAction stepValue={stepValue} onAsyncAdd={asyncAdd} />
+          </Space>
+        </Col>
+      </Row>
 
-        <Card title="使用说明" style={{ marginTop: 16 }}>
-          <ul>
-            <li>
-              <strong>基础操作</strong>：点击按钮增加或减少计数值
-            </li>
-            <li>
-              <strong>自定义步长</strong>：输入自定义步长值，按指定数值增加或减少
-            </li>
-            <li>
-              <strong>异步操作</strong>：模拟异步 API 调用，延迟 1 秒后更新状态
-            </li>
-            <li>
-              <strong>状态共享</strong>：状态存储在 Model 中，可在多个组件间共享
-            </li>
-          </ul>
-        </Card>
-      </div>
-    </div>
+      {/* 使用说明 */}
+      <UsageGuide />
+    </PageLayout>
   );
 };
 
