@@ -3,4 +3,6 @@
  */
 export * from './types';
 export * from './user';
+export * from './table';
+export * from './api';
 export { default as request, get, post, put, del, postForm } from './request';

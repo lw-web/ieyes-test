@@ -47,3 +47,28 @@ export interface ResponseResult<T = any> {
   message: string;
   success: boolean;
 }
+
+// 表格查询参数（扩展）
+export interface TableQueryParams extends PageParams {
+  filters?: Record<string, any>;
+  sorter?: {
+    field?: string;
+    order?: 'ascend' | 'descend';
+  };
+  keyword?: string; // 关键词搜索
+}
+
+// 用户状态枚举
+export enum UserStatus {
+  Active = 'active',
+  Inactive = 'inactive',
+  Banned = 'banned',
+}
+
+// 扩展用户信息（用于表格）
+export interface UserTableItem extends UserInfo {
+  status?: UserStatus;
+  phone?: string;
+  department?: string;
+  lastLoginAt?: string;
+}

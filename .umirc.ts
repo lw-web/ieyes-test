@@ -17,9 +17,16 @@ export default defineConfig({
       path: '/api-demo',
       component: '@/pages/api-demo',
     },
+    {
+      path: '/table-demo',
+      component: '@/pages/table-demo',
+    },
   ],
   fastRefresh: {},
   webpack5: {},
+  devServer: {
+    port: 8000,
+  },
   theme: {
     'primary-color': '#1890ff',
   },

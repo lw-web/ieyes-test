@@ -83,6 +83,8 @@ const IndexPage: React.FC = () => {
             <Link to="/counter">UmiJS Model 数据流 - 计数器 Demo</Link>
             <span>|</span>
             <Link to="/api-demo">API 请求封装 - Fetch Demo</Link>
+            <span>|</span>
+            <Link to="/table-demo">ProTable 高级表格组件 Demo</Link>
           </Space>
         }
         type="info"
