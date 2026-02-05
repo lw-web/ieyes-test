@@ -59,6 +59,7 @@ button,
 
 // ========== 屏幕阅读器专用 ==========
 
+// 屏幕阅读器专用内容（默认隐藏）
 .sr-only {
   position: absolute;
   width: 1px;
@@ -72,15 +73,27 @@ button,
 }
 
 // 可聚焦的屏幕阅读器元素（用于跳过导航）
-.sr-only-focusable:focus {
-  position: static;
-  width: auto;
-  height: auto;
-  padding: inherit;
-  margin: inherit;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
+.sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
 }
 
 // ========== 颜色对比度检查 ==========
@@ -113,21 +126,29 @@ button,
 // ========== 跳过导航链接 ==========
 
 .skip-to-content {
-  .sr-only();
-  .sr-only-focusable();
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  padding: @spacing-md @spacing-lg;
-  background: @primary-color;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 
   &:focus {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    padding: @spacing-md @spacing-lg;
+    background: @primary-color;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
     clip: auto;
+    width: auto;
+    height: auto;
   }
 }
 
@@ -164,29 +185,14 @@ button,
 .error-message {
   color: @error-color;
   font-weight: 500;
-
-  &::before {
-    content: '⚠ ';
-    speak: none;
-  }
 }
 
 .warning-message {
   color: @warning-color;
   font-weight: 500;
-
-  &::before {
-    content: '⚠ ';
-    speak: none;
-  }
 }
 
 .success-message {
   color: @success-color;
   font-weight: 500;
-
-  &::before {
-    content: '✓ ';
-    speak: none;
-  }
 }

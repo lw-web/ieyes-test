@@ -3,9 +3,9 @@
  * 支持显示/隐藏列、固定列配置
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Checkbox, Popover, Button, Divider, Space, Input } from 'antd';
-import { SettingOutlined, SearchOutlined, CheckOutlined } from '@ant-design/icons';
+import { SettingOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import type { ColumnConfig } from './types';
 import './index.less';
 
@@ -15,89 +15,69 @@ interface ColumnSettingProps {
   storageKey?: string;
 }
 
-// 从 localStorage 加载列配置
-const loadColumnConfig = (storageKey: string): ColumnConfig[] | null => {
-  try {
-    const data = localStorage.getItem(storageKey);
-    return data ? JSON.parse(data) : null;
-  } catch {
-    return null;
-  }
-};
-
-// 保存列配置到 localStorage
-const saveColumnConfig = (storageKey: string, columns: ColumnConfig[]) => {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(columns));
-  } catch (error) {
-    console.warn('Failed to save column config to localStorage:', error);
-  }
-};
-
 /**
  * 列配置组件
  */
-const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, onChange, storageKey }) => {
+const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, onChange }) => {
   const [visible, setVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [checkedList, setCheckedList] = useState<string[]>(() =>
-    columns.filter((col) => col.visible).map((col) => col.key)
-  );
-
-  // 初始化时从 localStorage 加载配置
-  useEffect(() => {
-    if (storageKey) {
-      const savedConfig = loadColumnConfig(storageKey);
-      if (savedConfig) {
-        const visibleKeys = savedConfig.filter((col) => col.visible).map((col) => col.key);
-        setCheckedList(visibleKeys);
-      }
-    }
-  }, [storageKey]);
 
   // 过滤后的列列表
-  const filteredColumns = columns.filter((col) =>
-    col.label.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredColumns = useMemo(() =>
+    columns.filter((col) =>
+      col.label.toLowerCase().includes(searchValue.toLowerCase())
+    ),
+    [columns, searchValue]
+  );
+
+  // 当前可见的列 key 列表
+  const visibleKeys = useMemo(() =>
+    new Set(columns.filter((col) => col.visible).map((col) => col.key)),
+    [columns]
+  );
+
+  // 过滤后可见的列 key 列表
+  const filteredVisibleKeys = useMemo(() =>
+    new Set(filteredColumns.filter((col) => col.visible).map((col) => col.key)),
+    [filteredColumns]
   );
 
   // 全选状态
-  const checkAll = filteredColumns.length > 0 && checkedList.length === filteredColumns.length;
-  const indeterminate = checkedList.length > 0 && checkedList.length < filteredColumns.length;
+  const checkAll = filteredColumns.length > 0 && filteredVisibleKeys.size === filteredColumns.length;
+  const indeterminate = filteredVisibleKeys.size > 0 && filteredVisibleKeys.size < filteredColumns.length;
 
-  // 处理复选框变化
-  const handleCheckChange = (checkedKeys: string[]) => {
-    setCheckedList(checkedKeys);
-
+  // 处理单个列的勾选变化
+  const handleItemCheck = useCallback((columnKey: string, checked: boolean) => {
+    // 计算所有列的新可见状态
     const newColumns = columns.map((col) => ({
       ...col,
-      visible: checkedKeys.includes(col.key),
+      visible: col.key === columnKey ? checked : col.visible,
     }));
-
     onChange(newColumns);
-
-    // 持久化到 localStorage
-    if (storageKey) {
-      saveColumnConfig(storageKey, newColumns);
-    }
-  };
+  }, [columns, onChange]);
 
   // 全选/取消全选
-  const handleCheckAll = (checked: boolean) => {
-    const newCheckedList = checked ? filteredColumns.map((col) => col.key) : [];
-    handleCheckChange(newCheckedList);
-  };
+  const handleCheckAll = useCallback((checked: boolean) => {
+    // 只更新过滤后的列的可见状态，保持其他列不变
+    const filteredKeySet = new Set(filteredColumns.map((col) => col.key));
+    const newColumns = columns.map((col) => ({
+      ...col,
+      visible: filteredKeySet.has(col.key) ? checked : col.visible,
+    }));
+    onChange(newColumns);
+  }, [columns, filteredColumns, onChange]);
 
   // 重置为默认配置
-  const handleReset = () => {
-    const defaultVisibleKeys = columns
-      .filter((col) => !col.key.startsWith('action')) // 默认隐藏操作列
-      .map((col) => col.key);
+  const handleReset = useCallback(() => {
+    const newColumns = columns.map((col) => ({
+      ...col,
+      visible: !col.key.startsWith('action'), // 默认隐藏操作列
+    }));
+    onChange(newColumns);
+  }, [columns, onChange]);
 
-    handleCheckChange(defaultVisibleKeys);
-  };
-
-  // 内容
-  const content = (
+  // 使用 useMemo 缓存 content，避免每次渲染创建新引用
+  const content = useMemo(() => (
     <div className="protable-column-setting">
       {/* 搜索框 */}
       <Input
@@ -116,35 +96,48 @@ const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, onChange, storag
           checked={checkAll}
           onChange={(e) => handleCheckAll(e.target.checked)}
         >
-          列展示
+          列展示 / {filteredVisibleKeys.size} / {filteredColumns.length}
         </Checkbox>
-        <a onClick={handleReset} style={{ fontSize: 12 }}>
+        <Button
+          type="link"
+          size="small"
+          icon={<ReloadOutlined />}
+          onClick={handleReset}
+        >
           重置
-        </a>
+        </Button>
       </div>
 
       <Divider style={{ margin: '8px 0' }} />
 
       {/* 列列表 */}
       <div className="protable-column-setting-list">
-        <Checkbox.Group
-          style={{ width: '100%' }}
-          value={checkedList}
-          onChange={(checkedKeys) => handleCheckChange(checkedKeys as string[])}
-        >
-          <Space direction="vertical" style={{ width: '100%' }}>
-            {filteredColumns.map((col) => (
-              <Checkbox key={col.key} value={col.key}>
-                <span className="protable-column-setting-item">
-                  {col.label}
-                </span>
-              </Checkbox>
-            ))}
-          </Space>
-        </Checkbox.Group>
+        <Space direction="vertical" style={{ width: '100%' }}>
+          {filteredColumns.map((col) => (
+            <Checkbox
+              key={col.key}
+              checked={col.visible}
+              onChange={(e) => handleItemCheck(col.key, e.target.checked)}
+            >
+              <span className="protable-column-setting-item">
+                {col.label}
+              </span>
+            </Checkbox>
+          ))}
+        </Space>
       </div>
     </div>
-  );
+  ), [
+    searchValue,
+    filteredColumns,
+    filteredVisibleKeys,
+    visibleKeys,
+    checkAll,
+    indeterminate,
+    handleCheckAll,
+    handleReset,
+    handleItemCheck,
+  ]);
 
   return (
     <Popover
@@ -155,6 +148,7 @@ const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, onChange, storag
       onOpenChange={setVisible}
       placement="bottomRight"
       overlayClassName="protable-column-setting-popover"
+      destroyTooltipOnHide
     >
       <Button icon={<SettingOutlined />} type="text" size="small">
         列设置

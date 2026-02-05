@@ -3,34 +3,13 @@
  */
 
 @import '../../styles/mixins';
+@import '../../styles/accessibility';
 
 .page-layout {
   min-height: 100vh;
   background: @bg-page;
   padding: @spacing-lg;
   animation: fadeIn 0.4s @easing-ease-out;
-
-  // 跳转到主内容链接
-  .skip-to-content {
-    .sr-only();
-    .sr-only-focusable();
-
-    position: fixed;
-    top: 8px;
-    left: 8px;
-    z-index: @z-tooltip;
-    padding: @spacing-sm @spacing-md;
-    background: @primary-color;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: @radius-md;
-    box-shadow: @shadow-md;
-
-    &:hover {
-      background: @primary-hover;
-    }
-  }
 
   // 页面头部
   &-header {
@@ -107,7 +86,9 @@
 
   // 标题行
   &-title-row {
-    .flex-between();
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: @spacing-md;
   }
@@ -166,13 +147,6 @@
 @media (max-width: @screen-sm) {
   .page-layout {
     padding: @spacing-md;
-
-    .skip-to-content {
-      top: 4px;
-      left: 4px;
-      padding: @spacing-xs @spacing-sm;
-      font-size: @font-size-sm;
-    }
 
     &-header {
       padding: @spacing-lg;
