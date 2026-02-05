@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
+import type { ColumnType } from 'antd/es/table';
 
 interface UseColumnResizeOptions {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -20,10 +21,14 @@ interface ColumnResizeState {
   th: HTMLElement;
 }
 
+interface UseColumnResizeReturn {
+  getOnHeaderCell: (column: ColumnType<any>) => React.HTMLAttributes<HTMLElement>;
+}
+
 /**
  * 列宽拖拽 Hook
  */
-export function useColumnResize(options: UseColumnResizeOptions) {
+export function useColumnResize(options: UseColumnResizeOptions): UseColumnResizeReturn {
   const {
     containerRef,
     enableResizable = true,
@@ -120,7 +125,7 @@ export function useColumnResize(options: UseColumnResizeOptions) {
   }, [enableResizable, containerRef, handleMouseMove, handleMouseUp]);
 
   // 获取 onHeaderCell 配置
-  const getOnHeaderCell = useCallback((column: any) => ({
+  const getOnHeaderCell = useCallback((column: ColumnType<any>) => ({
     width: column.width,
     'data-column-key': column.key || column.dataIndex,
   }), []);

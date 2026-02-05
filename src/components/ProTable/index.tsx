@@ -100,7 +100,13 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
       getQueryParams,
       getDataSource: () => dataSource,
       setFilters,
-      setSorter,
+      setSorter: (sorter) => {
+        const sortField = sorter.field;
+        const sortOrder = sorter.order;
+        if (sortField) {
+          setSorter({ [sortField]: sortOrder || null });
+        }
+      },
     }),
     [reload, handleReset, getQueryParams, dataSource, setFilters, setSorter]
   );
