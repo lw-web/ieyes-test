@@ -116,7 +116,7 @@ function App() {
 | `getQueryParams` | `() => TableQueryParams` | 获取当前查询参数 |
 | `getDataSource` | `() => T[]` | 获取当前数据源 |
 | `setFilters` | `(filters: Record<string, FilterValue \| null>) => void` | 手动设置筛选条件 |
-| `setSorter` | `(sorter: SorterResult<any>) => void` | 手动设置排序条件 |
+| `setSorter` | `(sorter: Record<string, 'ascend' \| 'descend' \| null>) => void` | 手动设置排序条件 |
 
 ### 类型定义
 
@@ -183,7 +183,7 @@ const TableHeaderSearch: React.FC<FilterDropdownProps> = ({
       style={{ width: 188, marginBottom: 8, display: 'block' }}
     />
     <Space>
-      <Button type="primary" onClick={() => confirm()} size="small">
+      <Button type="primary" onClick={() => confirm()} size="small" icon={<SearchOutlined />}>
         搜索
       </Button>
       <Button onClick={() => clearFilters?.()} size="small">
@@ -264,17 +264,31 @@ const roles = [
 
 ## 完整示例
 
+### 推荐的目录结构
+
+```
+src/pages/user-list/
+├── index.tsx       # 页面组件
+├── config.tsx      # 列配置、筛选选项
+└── index.less      # 样式文件
+```
+
+### config.tsx - 配置文件
+
 ```tsx
-import React, { useRef } from 'react';
+/**
+ * 用户列表配置文件
+ */
+import React from 'react';
 import { Button, Space, Tag, Input } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
-import type { ProTableRef, ColumnConfig } from '@/components/ProTable';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
-import ProTable from '@/components/ProTable';
-import { fetchUserList } from '@/services/api';
+import type { ColumnType } from 'antd/es/table';
+import type { ColumnConfig } from '@/components/ProTable';
+import type { UserTableItem } from '@/services';
 
-// 搜索组件
-const TableHeaderSearch: React.FC<FilterDropdownProps> = ({
+// 表头搜索组件
+export const TableHeaderSearch: React.FC<FilterDropdownProps> = ({
   setSelectedKeys,
   selectedKeys,
   confirm,
@@ -299,8 +313,15 @@ const TableHeaderSearch: React.FC<FilterDropdownProps> = ({
   </div>
 );
 
-// 列配置
-const columnConfig: ColumnConfig[] = [
+// 角色选项
+export const roles = [
+  { label: '超级管理员', value: 'admin' },
+  { label: '编辑', value: 'editor' },
+  { label: '用户', value: 'user' },
+];
+
+// 默认列配置
+export const defaultColumnConfig: ColumnConfig[] = [
   { key: 'id', label: 'ID', visible: true },
   { key: 'username', label: '用户名', visible: true },
   { key: 'nickname', label: '昵称', visible: true },
@@ -310,81 +331,92 @@ const columnConfig: ColumnConfig[] = [
   { key: 'action', label: '操作', visible: true },
 ];
 
-// 角色选项
-const roles = [
-  { label: '超级管理员', value: 'admin' },
-  { label: '编辑', value: 'editor' },
-  { label: '用户', value: 'user' },
+// 列定义
+export const columns: ColumnType<UserTableItem>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+    width: 80,
+    sorter: true,
+  },
+  {
+    title: '用户名',
+    dataIndex: 'username',
+    key: 'username',
+    width: 150,
+    sorter: true,
+    filterDropdown: TableHeaderSearch,
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+  },
+  {
+    title: '角色',
+    dataIndex: 'role',
+    key: 'role',
+    width: 120,
+    filters: roles.map((r) => ({ text: r.label, value: r.value })),
+    filterIcon: (filtered: boolean) => (
+      <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    render: (role: string) => {
+      const roleInfo = roles.find((r) => r.value === role);
+      return <Tag color={role === 'admin' ? 'red' : 'blue'}>{roleInfo?.label || role}</Tag>;
+    },
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 150,
+    fixed: 'right' as const,
+    render: (_: any, record: UserTableItem) => (
+      <Space>
+        <Button type="link" size="small">编辑</Button>
+        <Button type="link" size="small" danger>删除</Button>
+      </Space>
+    ),
+  },
 ];
+```
 
-function UserListPage() {
+### index.tsx - 页面组件
+
+```tsx
+/**
+ * 用户列表页面
+ */
+import React, { useRef } from 'react';
+import { Card } from 'antd';
+import type { ProTableRef } from '@/components/ProTable';
+import type { UserTableItem } from '@/services';
+import ProTable from '@/components/ProTable';
+import { fetchUserList } from '@/services/api';
+import { columns, defaultColumnConfig } from './config';
+
+const UserListPage: React.FC = () => {
   const tableRef = useRef<ProTableRef>(null);
 
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      width: 80,
-      sorter: true,
-    },
-    {
-      title: '用户名',
-      dataIndex: 'username',
-      key: 'username',
-      width: 150,
-      sorter: true,
-      filterDropdown: TableHeaderSearch,
-      filterIcon: (filtered: boolean) => (
-        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
-    },
-    {
-      title: '角色',
-      dataIndex: 'role',
-      key: 'role',
-      width: 120,
-      filters: roles.map((r) => ({ text: r.label, value: r.value })),
-      filterIcon: (filtered: boolean) => (
-        <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
-      render: (role: string) => {
-        const roleInfo = roles.find((r) => r.value === role);
-        return <Tag color={role === 'admin' ? 'red' : 'blue'}>{roleInfo?.label || role}</Tag>;
-      },
-    },
-    {
-      title: '操作',
-      key: 'action',
-      width: 150,
-      fixed: 'right' as const,
-      render: (_: any, record: any) => (
-        <Space>
-          <Button type="link" size="small">编辑</Button>
-          <Button type="link" size="small" danger>删除</Button>
-        </Space>
-      ),
-    },
-  ];
-
-  const request = async (params: any) => {
+  // 数据请求函数
+  const handleRequest = async (params: any) => {
     const { current, pageSize, filters, sorter } = params;
-    return fetchUserList({ current, pageSize, filters, sorter });
+
+    return await fetchUserList({
+      current,
+      pageSize,
+      filters,
+      sorter,
+    });
   };
 
   return (
-    <>
-      <Space style={{ marginBottom: 16 }}>
-        <Button onClick={() => tableRef.current?.reload()}>刷新</Button>
-        <Button onClick={() => tableRef.current?.reload(true)}>刷新(重置页码)</Button>
-        <Button onClick={() => tableRef.current?.reset()}>重置</Button>
-      </Space>
-      <ProTable
+    <Card>
+      <ProTable<UserTableItem>
         ref={tableRef}
-        request={request}
+        request={handleRequest}
         columns={columns}
         rowKey="id"
-        defaultColumnConfig={columnConfig}
+        defaultColumnConfig={defaultColumnConfig}
         enableColumnSetting={true}
         enableResizable={true}
         columnConfigKey="user-list-columns"
@@ -393,9 +425,9 @@ function UserListPage() {
           size: 'middle',
         }}
       />
-    </>
+    </Card>
   );
-}
+};
 
 export default UserListPage;
 ```
@@ -639,3 +671,4 @@ src/components/ProTable/
 | 版本 | 日期 | 说明 |
 |------|------|------|
 | 1.0.0 | 2025-02-05 | 初始版本，支持分页、搜索、筛选、排序、列配置、列宽拖拽 |
+| 1.1.0 | 2025-02-05 | 修复筛选/排序参数传递问题；优化 TypeScript 类型定义 |
