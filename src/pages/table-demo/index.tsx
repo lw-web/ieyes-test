@@ -4,7 +4,10 @@
  */
 
 import React, { useRef } from 'react';
-import { Card } from 'antd';
+import { Card, Button } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
+// @ts-ignore
+import { Link } from 'umi';
 import type { ProTableRef } from '@/components/ProTable';
 import type { UserTableItem } from '@/services';
 import ProTable from '@/components/ProTable';
@@ -29,6 +32,15 @@ const TableDemoPage: React.FC = () => {
 
   return (
     <div className="table-demo-page">
+      <Link to="/">
+        <Button
+          type="primary"
+          icon={<HomeOutlined />}
+          style={{ marginBottom: 16 }}
+        >
+          返回首页
+        </Button>
+      </Link>
       <Card>
         <ProTable<UserTableItem>
           ref={tableRef}

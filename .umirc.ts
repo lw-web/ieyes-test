@@ -10,8 +10,8 @@ export default defineConfig({
       component: '@/pages/index',
     },
     {
-      path: '/counter',
-      component: '@/pages/counter',
+      path: '/counter-demo',
+      component: '@/pages/counter-demo',
     },
     {
       path: '/api-demo',

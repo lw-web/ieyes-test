@@ -16,9 +16,10 @@ import {
   MinusOutlined,
   ReloadOutlined,
   ThunderboltOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 // @ts-ignore
-import { useModel } from 'umi';
+import { useModel, Link } from 'umi';
 
 const { Title, Paragraph } = Typography;
 
@@ -156,6 +157,15 @@ const CounterPage: FC = () => {
   return (
     <div className="counter-page">
       <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
+        <Link to="/">
+          <Button
+            type="primary"
+            icon={<HomeOutlined />}
+            style={{ marginBottom: 16 }}
+          >
+            返回首页
+          </Button>
+        </Link>
         <Card style={{ marginBottom: 16 }}>
           <Title level={2}>UmiJS Model 数据流 - 计数器 Demo</Title>
           <Paragraph>

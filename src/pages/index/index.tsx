@@ -1,11 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { Card, Button, DatePicker, Space, Statistic, Row, Col, Typography, Alert } from 'antd';
+import { Card, Button, DatePicker, Space, Statistic, Row, Col, Typography, Tag } from 'antd';
 import { Link } from 'umi';
 import { Chart } from '@antv/g2';
 import type { Chart as G2Chart } from '@antv/g2';
+import {
+  ThunderboltOutlined,
+  ApiOutlined,
+  TableOutlined,
+  ArrowRightOutlined,
+} from '@ant-design/icons';
 import './index.less';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 interface DataItem {
   date: string;
@@ -76,21 +82,79 @@ const IndexPage: React.FC = () => {
         </Paragraph>
       </div>
 
-      <Alert
-        message="Demo 页面"
-        description={
-          <Space>
-            <Link to="/counter">UmiJS Model 数据流 - 计数器 Demo</Link>
-            <span>|</span>
-            <Link to="/api-demo">API 请求封装 - Fetch Demo</Link>
-            <span>|</span>
-            <Link to="/table-demo">ProTable 高级表格组件 Demo</Link>
-          </Space>
-        }
-        type="info"
-        showIcon
-        style={{ marginTop: 16 }}
-      />
+      {/* Demo 页面菜单 */}
+      <div style={{ marginTop: 24 }}>
+        <Title level={3}>Demo 页面</Title>
+        <Paragraph type="secondary">选择以下示例页面查看功能演示</Paragraph>
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+          <Col xs={24} sm={12} lg={8}>
+            <Link to="/counter-demo" style={{ display: 'block' }}>
+              <Card
+                hoverable
+                className="demo-card"
+                style={{ height: '100%' }}
+              >
+                <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                  <div className="demo-card-icon">
+                    <ThunderboltOutlined />
+                  </div>
+                  <Title level={4} style={{ margin: 0 }}>计数器 Demo</Title>
+                  <Text type="secondary">UmiJS Model 数据流</Text>
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    展示如何使用 useModel Hook 实现状态管理，包含基础操作、自定义步长、异步操作等功能
+                  </Text>
+                  <Tag color="blue">状态管理</Tag>
+                  <Tag color="cyan">React Hooks</Tag>
+                </Space>
+              </Card>
+            </Link>
+          </Col>
+          <Col xs={24} sm={12} lg={8}>
+            <Link to="/api-demo" style={{ display: 'block' }}>
+              <Card
+                hoverable
+                className="demo-card"
+                style={{ height: '100%' }}
+              >
+                <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                  <div className="demo-card-icon">
+                    <ApiOutlined />
+                  </div>
+                  <Title level={4} style={{ margin: 0 }}>API 请求 Demo</Title>
+                  <Text type="secondary">Fetch 封装示例</Text>
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    演示封装的 fetch 请求方法，包含登录、CRUD 操作、统一错误处理等功能
+                  </Text>
+                  <Tag color="green">HTTP 请求</Tag>
+                  <Tag color="purple">TypeScript</Tag>
+                </Space>
+              </Card>
+            </Link>
+          </Col>
+          <Col xs={24} sm={12} lg={8}>
+            <Link to="/table-demo" style={{ display: 'block' }}>
+              <Card
+                hoverable
+                className="demo-card"
+                style={{ height: '100%' }}
+              >
+                <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                  <div className="demo-card-icon">
+                    <TableOutlined />
+                  </div>
+                  <Title level={4} style={{ margin: 0 }}>ProTable Demo</Title>
+                  <Text type="secondary">高级表格组件</Text>
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    企业级表格组件，支持分页、搜索、筛选、排序、列配置、列宽拖拽等功能
+                  </Text>
+                  <Tag color="orange">表格组件</Tag>
+                  <Tag color="red">Ant Design</Tag>
+                </Space>
+              </Card>
+            </Link>
+          </Col>
+        </Row>
+      </div>
 
       <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
         <Col span={6}>

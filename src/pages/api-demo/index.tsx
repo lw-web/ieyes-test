@@ -3,9 +3,11 @@
  */
 import React, { FC, useState } from 'react';
 import { Card, Button, Input, Form, Space, Typography, message, Alert } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, HomeOutlined } from '@ant-design/icons';
 // @ts-ignore
 import { login, getUserList, createUser, updateUser, deleteUser } from '@/services';
+// @ts-ignore
+import { Link } from 'umi';
 // @ts-ignore
 import type { LoginParams } from '@/services';
 
@@ -96,6 +98,15 @@ const ApiDemoPage: FC = () => {
 
   return (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
+      <Link to="/">
+        <Button
+          type="primary"
+          icon={<HomeOutlined />}
+          style={{ marginBottom: 16 }}
+        >
+          返回首页
+        </Button>
+      </Link>
       <Card style={{ marginBottom: 16 }}>
         <Title level={2}>API 请求示例</Title>
         <Paragraph>
