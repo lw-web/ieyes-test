@@ -121,9 +121,6 @@ export function useTableQuery<T = any>(
           }
         }
 
-        console.log('=== fetchTable 发起请求 ===');
-        console.log('params:', params);
-
         // 发起请求
         const result = await requestRef.current(params);
 

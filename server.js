@@ -160,34 +160,19 @@ function applyPagination(data, current, pageSize) {
 app.post('/api/user/list', (req, res) => {
   const { current = 1, pageSize = 10, filters, sorter } = req.body;
 
-  // 打印请求参数（调试用）
-  console.log('=== /api/user/list 请求参数 ===');
-  console.log('current:', current);
-  console.log('pageSize:', pageSize);
-  console.log('filters:', filters);
-  console.log('sorter:', sorter);
-
   // 模拟网络延迟
   setTimeout(() => {
     try {
       let filteredData = [...users];
-      console.log('原始数据量:', filteredData.length);
 
       // 应用过滤
       filteredData = applyFilters(filteredData, filters);
-      console.log('过滤后数据量:', filteredData.length);
 
       // 应用排序
       filteredData = applySorter(filteredData, sorter);
 
       // 应用分页
       const result = applyPagination(filteredData, current, pageSize);
-
-      console.log('返回数据:', {
-        total: result.total,
-        listLength: result.list.length,
-        firstItem: result.list[0],
-      });
 
       res.json({
         code: 0,

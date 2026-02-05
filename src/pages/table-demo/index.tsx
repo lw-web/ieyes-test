@@ -233,21 +233,12 @@ const TableDemoPage: React.FC = () => {
   const handleRequest = async (params: any) => {
     const { current, pageSize, filters, sorter } = params;
 
-    console.log('=== 前端请求参数 ===');
-    console.log('current:', current);
-    console.log('pageSize:', pageSize);
-    console.log('filters:', filters);
-    console.log('sorter:', sorter);
-
     const result = await fetchUserList({
       current,
       pageSize,
       filters,
       sorter,
     });
-
-    console.log('=== 后端返回结果 ===');
-    console.log('result:', result);
 
     // 数据加载成功后，刷新统计数据
     loadStats();
@@ -303,9 +294,7 @@ const TableDemoPage: React.FC = () => {
             bordered: true,
             size: 'middle',
           }}
-          onRequestSuccess={(data) => {
-            console.log('数据加载成功:', data);
-          }}
+          onRequestSuccess={undefined}
         />
       </Card>
 
