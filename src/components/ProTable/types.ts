@@ -78,5 +78,5 @@ export interface ProTableRef {
   getQueryParams: () => TableQueryParams;
   getDataSource: () => any[];
   setFilters: (filters: Record<string, FilterValue | null>) => void;
-  setSorter: (sorter: SorterResult<any>) => void;
+  setSorter: (sorter: Record<string, 'ascend' | 'descend' | null>) => void;
 }
