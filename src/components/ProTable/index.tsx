@@ -11,6 +11,7 @@
 
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Table, Space } from 'antd';
+import type { TableProps } from 'antd/es/table';
 import type { ProTableProps, ProTableRef } from './types';
 import { useTableQuery } from './useTableQuery';
 import { useColumnResize } from './useColumnResize';
@@ -119,11 +120,11 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
   );
 
   // 表格变化处理
-  const onTableChange = (
-    newPagination: any,
-    newFilters: any,
-    newSorter: any,
-    extra: any
+  const onTableChange: TableProps<T>['onChange'] = (
+    newPagination,
+    newFilters,
+    newSorter,
+    extra
   ) => {
     handleTableChange({
       pagination: newPagination,
@@ -157,7 +158,7 @@ function ProTable<T = any>(props: ProTableProps<T>, ref: React.Ref<ProTableRef>)
 // 使用 forwardRef 暴露 ref 方法
 const ProTableWithRef = forwardRef(ProTable) as <T = any>(
   props: ProTableProps<T> & { ref?: React.Ref<ProTableRef> }
-) => React.ReactElement;
+) => JSX.Element;
 
 ProTableWithRef.displayName = 'ProTable';
 
