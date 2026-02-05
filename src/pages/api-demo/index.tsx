@@ -23,8 +23,44 @@ import { login, getUserList, createUser, updateUser, deleteUser } from '@/servic
 // @ts-ignore
 import type { LoginParams } from '@/services';
 import PageLayout from '@/components/PageLayout';
+import './index.less';
 
 const { Text, Paragraph } = Typography;
+
+/**
+ * JSON 语法高亮组件
+ */
+const JsonHighlight: FC<{ data: any }> = ({ data }) => {
+  const highlightJson = (obj: any): string => {
+    if (obj === null) return '<span class="null">null</span>';
+    if (obj === undefined) return '<span class="undefined">undefined</span>';
+    if (typeof obj === 'boolean') return `<span class="boolean">${obj}</span>`;
+    if (typeof obj === 'number') return `<span class="number">${obj}</span>`;
+    if (typeof obj === 'string') return `<span class="string">"${obj}"</span>`;
+
+    if (Array.isArray(obj)) {
+      if (obj.length === 0) return '[]';
+      const items = obj.map(item => '  ' + highlightJson(item)).join(',\n');
+      return `[\n${items}\n]`;
+    }
+
+    if (typeof obj === 'object') {
+      const keys = Object.keys(obj);
+      if (keys.length === 0) return '{}';
+      const items = keys.map(key => `  <span class="key">"${key}"</span>: ${highlightJson(obj[key])}`).join(',\n');
+      return `{\n${items}\n}`;
+    }
+
+    return String(obj);
+  };
+
+  return (
+    <pre
+      className="response-data"
+      dangerouslySetInnerHTML={{ __html: highlightJson(data) }}
+    />
+  );
+};
 
 const ApiDemoPage: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -230,9 +266,10 @@ const ApiDemoPage: FC = () => {
                   size="small"
                   className="response-card"
                 >
-                  <pre className="response-data">
-                    {JSON.stringify(userData, null, 2)}
-                  </pre>
+                  <div className="macos-dots">
+                    <span className="dot-green"></span>
+                  </div>
+                  <JsonHighlight data={userData} />
                 </Card>
               )}
             </Space>
