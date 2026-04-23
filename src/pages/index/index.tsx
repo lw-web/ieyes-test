@@ -14,6 +14,7 @@ import {
   ArrowRightOutlined,
   RiseOutlined,
   FallOutlined,
+  SmileOutlined,
 } from '@ant-design/icons';
 import PageLayout from '@/components/PageLayout';
 import './index.less';
@@ -147,6 +148,27 @@ const IndexPage: React.FC = () => {
                 <div className="demo-card-tags">
                   <Tag color="orange">表格组件</Tag>
                   <Tag color="red">Ant Design</Tag>
+                </div>
+                <div className="demo-card-arrow">
+                  <ArrowRightOutlined />
+                </div>
+              </Card>
+            </Link>
+          </Col>
+          <Col xs={24} sm={12} lg={8}>
+            <Link to="/figjam-demo" className="demo-card-link">
+              <Card hoverable className="demo-card demo-card--orange">
+                <div className="demo-card-icon">
+                  <SmileOutlined />
+                </div>
+                <h4 className="demo-card-title">FigJam Demo</h4>
+                <p className="demo-card-subtitle">交互组件演示</p>
+                <p className="demo-card-desc">
+                  演示 FigJam 风格的交互组件，包含表情轮盘、印章选择器、流程图等
+                </p>
+                <div className="demo-card-tags">
+                  <Tag color="magenta">UI 组件</Tag>
+                  <Tag color="volcano">交互设计</Tag>
                 </div>
                 <div className="demo-card-arrow">
                   <ArrowRightOutlined />

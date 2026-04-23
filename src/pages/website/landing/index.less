@@ -1,0 +1,366 @@
+.landing-page {
+  min-height: 100vh;
+  background: #ffffff;
+
+  // Hero Section
+  .hero-section {
+    position: relative;
+    height: 720px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 80px;
+      width: 100%;
+    }
+
+    .hero-title {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .hero-cta {
+      height: 76px;
+      padding: 0 64px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+  }
+
+  // Common Section Styles
+  .section-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  .section-heading {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    color: #1a1a1a;
+  }
+
+  // Hero Image Section
+  .hero-image-section {
+    padding: 80px 0;
+
+    .hero-main-image {
+      height: 640px;
+      border-radius: 8px;
+    }
+  }
+
+  // Feature Cards Section
+  .feature-cards-section {
+    padding: 80px 0;
+
+    .feature-card {
+      height: 100%;
+
+      .feature-card-image {
+        .placeholder-image {
+          height: 405px;
+          border-radius: 8px;
+          margin-bottom: 24px;
+        }
+      }
+
+      .feature-card-content {
+        padding: 0 12px;
+
+        h4 {
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        p {
+          color: #666;
+          line-height: 1.6;
+        }
+      }
+    }
+  }
+
+  // Split Content Section
+  .split-content-section {
+    padding: 80px 0;
+
+    .split-text {
+      .section-heading {
+        margin-bottom: 32px;
+      }
+
+      .text-item {
+        margin-bottom: 32px;
+
+        h4 {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        p {
+          color: #666;
+          line-height: 1.6;
+        }
+      }
+
+      .split-buttons {
+        .ant-btn {
+          height: 60px;
+          padding: 0 48px;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .split-image {
+      .placeholder-image {
+        height: 704px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  // Two Column Cards Section
+  .two-col-cards-section {
+    padding: 80px 0;
+
+    .large-card {
+      .large-card-image {
+        .placeholder-image {
+          height: 341px;
+          border-radius: 8px;
+          margin-bottom: 32px;
+        }
+      }
+
+      .large-card-content {
+        padding: 0 16px;
+
+        h4 {
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        p {
+          color: #666;
+          line-height: 1.6;
+        }
+      }
+    }
+  }
+
+  // Testimonials Section
+  .testimonials-section {
+    padding: 80px 0;
+
+    .testimonial-card {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 32px;
+      height: 198px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .testimonial-quote {
+        font-size: 18px;
+        font-style: italic;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .author-avatar {
+          .placeholder-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          }
+        }
+
+        .author-info {
+          .ant-typography {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  // CTA Section
+  .cta-section {
+    padding: 80px;
+    background: #f5f5f5;
+
+    .cta-content {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .cta-heading {
+      margin: 0;
+      font-size: 40px;
+      font-weight: 700;
+    }
+
+    .cta-buttons {
+      .ant-btn {
+        height: 76px;
+        padding: 0 64px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+// Placeholder Styles
+.placeholder-image {
+  background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  .placeholder-text {
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .landing-page {
+    .hero-section {
+      .hero-title {
+        font-size: 48px;
+      }
+    }
+
+    .section-heading {
+      font-size: 36px;
+    }
+
+    .split-content-section {
+      .split-image {
+        order: -1;
+      }
+    }
+
+    .cta-section {
+      .cta-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-page {
+    .hero-section {
+      height: 500px;
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+      }
+    }
+
+    .section-content {
+      padding: 0 24px;
+    }
+
+    .section-heading {
+      font-size: 28px;
+    }
+
+    .hero-image-section,
+    .feature-cards-section,
+    .split-content-section,
+    .two-col-cards-section,
+    .testimonials-section {
+      padding: 48px 0;
+    }
+  }
+}

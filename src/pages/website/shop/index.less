@@ -1,0 +1,263 @@
+.shop-page {
+  min-height: 100vh;
+  background: #ffffff;
+
+  // Header Section
+  .shop-header {
+    .header-background {
+      height: 720px;
+
+      .placeholder-image {
+        height: 100%;
+      }
+    }
+  }
+
+  // Common Section Styles
+  .section-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  .section-heading {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    color: #1a1a1a;
+  }
+
+  // Two Column Section
+  .two-col-section {
+    padding: 80px 0;
+
+    .col-image {
+      .placeholder-image {
+        height: 400px;
+        border-radius: 8px;
+      }
+    }
+
+    .col-content {
+      h3 {
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 32px;
+      }
+
+      .ant-btn {
+        height: 60px;
+        min-width: 125px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  // Featured Products Section
+  .featured-section {
+    padding: 80px 0;
+
+    .featured-card {
+      .featured-image {
+        .placeholder-image {
+          height: 735px;
+          border-radius: 8px;
+          margin-bottom: 24px;
+        }
+      }
+
+      .featured-content {
+        h4 {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+
+        p {
+          color: #666;
+          margin-bottom: 12px;
+        }
+
+        .ant-typography {
+          font-size: 20px;
+          color: #1a1a1a;
+        }
+      }
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+
+      .product-card-list {
+        .product-card-list-image {
+          .placeholder-image {
+            height: 283px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+          }
+        }
+
+        .product-card-list-content {
+          h4 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+          }
+
+          p {
+            color: #666;
+            margin-bottom: 12px;
+          }
+
+          .ant-typography {
+            font-size: 20px;
+            color: #1a1a1a;
+          }
+        }
+      }
+    }
+  }
+
+  // Features List Section
+  .features-list-section {
+    padding: 80px 0;
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+
+      .feature-item {
+        .feature-number {
+          font-size: 32px;
+          font-weight: 700;
+          color: #1890ff;
+          margin-bottom: 16px;
+        }
+
+        h4 {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+
+        p {
+          color: #666;
+          line-height: 1.6;
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .shop-page {
+    .section-content {
+      padding: 0 40px;
+    }
+
+    .section-heading {
+      font-size: 36px;
+    }
+
+    .two-col-section {
+      .col-content {
+        h3 {
+          font-size: 24px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .featured-section {
+      .featured-card {
+        .featured-image {
+          .placeholder-image {
+            height: 500px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .shop-page {
+    .shop-header {
+      .header-background {
+        height: 400px;
+      }
+    }
+
+    .section-content {
+      padding: 0 24px;
+    }
+
+    .section-heading {
+      font-size: 28px;
+    }
+
+    .two-col-section,
+    .featured-section,
+    .features-list-section {
+      padding: 48px 0;
+    }
+
+    .two-col-section {
+      .col-content {
+        h3 {
+          font-size: 20px;
+        }
+
+        .ant-btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .featured-section {
+      .featured-card {
+        .featured-image {
+          .placeholder-image {
+            height: 350px;
+          }
+        }
+      }
+
+      .product-list {
+        .product-card-list {
+          .product-card-list-image {
+            .placeholder-image {
+              height: 200px;
+            }
+          }
+        }
+      }
+    }
+
+    .features-list-section {
+      .feature-list {
+        gap: 32px;
+
+        .feature-item {
+          .feature-number {
+            font-size: 24px;
+          }
+        }
+      }
+    }
+  }
+}

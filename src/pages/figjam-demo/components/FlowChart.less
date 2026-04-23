@@ -1,0 +1,107 @@
+.flow-chart {
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  background: #fafafa;
+  border-radius: 12px;
+
+  .flow-container {
+    position: relative;
+    width: 400px;
+    height: 250px;
+  }
+
+  .flow-node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px solid #1890ff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(24, 144, 255, 0.3);
+      border-color: #40a9ff;
+    }
+
+    &--diamond {
+      width: 100px;
+      height: 100px;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
+
+      &:hover {
+        transform: translateX(-50%) rotate(45deg) scale(1.05);
+      }
+
+      .node-text {
+        transform: rotate(-45deg);
+      }
+    }
+
+    &--square {
+      width: 90px;
+      height: 80px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 100%);
+    }
+  }
+
+  .flow-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+
+  .flow-connector {
+    position: absolute;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, #1890ff, #40a9ff);
+    top: 90px;
+
+    &--left {
+      left: 70px;
+      transform: rotate(15deg);
+      transform-origin: top center;
+    }
+
+    &--right {
+      right: 70px;
+      transform: rotate(-15deg);
+      transform-origin: top center;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 10px solid #40a9ff;
+    }
+  }
+
+  .node-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1890ff;
+  }
+}

@@ -1,0 +1,89 @@
+.website-nav {
+  padding: 0;
+  height: 164px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  &--transparent {
+    background: transparent;
+    border-bottom: none;
+  }
+
+  &--dark {
+    background: #1a1a1a;
+    border-bottom: 1px solid #333;
+  }
+
+  .nav-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .nav-logo {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    color: #1a1a1a;
+
+    .website-nav--dark & {
+      color: #ffffff;
+    }
+
+    .website-nav--transparent & {
+      color: #ffffff;
+    }
+  }
+
+  .nav-menu {
+    flex: 1;
+    margin: 0 60px;
+    border-bottom: none;
+    background: transparent;
+
+    .ant-menu-item {
+      font-size: 16px;
+      margin: 0 24px;
+      padding: 0 16px;
+      height: 52px;
+      line-height: 52px;
+
+      &:hover {
+        color: #1890ff;
+      }
+    }
+
+    &.ant-menu-light {
+      .ant-menu-item-selected {
+        color: #1890ff;
+        border-bottom: 2px solid #1890ff;
+      }
+    }
+
+    &.ant-menu-dark {
+      .ant-menu-item-selected {
+        background: transparent;
+        border-bottom: 2px solid #1890ff;
+      }
+    }
+  }
+
+  .nav-cta {
+    height: 52px;
+    padding: 0 32px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+  }
+}

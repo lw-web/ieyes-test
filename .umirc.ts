@@ -21,6 +21,38 @@ export default defineConfig({
       path: '/table-demo',
       component: '@/pages/table-demo',
     },
+    {
+      path: '/figjam-demo',
+      component: '@/pages/figjam-demo',
+    },
+    {
+      path: '/website',
+      component: '@/pages/website/landing',
+    },
+    {
+      path: '/website/landing',
+      component: '@/pages/website/landing',
+    },
+    {
+      path: '/website/shop',
+      component: '@/pages/website/shop',
+    },
+    {
+      path: '/website/product',
+      component: '@/pages/website/product-detail',
+    },
+    {
+      path: '/website/about',
+      component: '@/pages/website/about',
+    },
+    {
+      path: '/website/article',
+      component: '@/pages/website/article',
+    },
+    {
+      path: '/website/pr-analysis',
+      component: '@/pages/website/pr-analysis',
+    },
   ],
   fastRefresh: {},
   webpack5: {},
