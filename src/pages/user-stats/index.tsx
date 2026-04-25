@@ -117,7 +117,7 @@ const UserStatsPage: React.FC = () => {
     >
       {/* 指标卡片 */}
       <Card style={{ marginBottom: 16 }}>
-        <MetricsCards data={metrics!} loading={loading} />
+        {metrics ? <MetricsCards data={metrics} loading={loading} /> : null}
       </Card>
 
       {/* 趋势图表 */}
@@ -127,7 +127,7 @@ const UserStatsPage: React.FC = () => {
 
       {/* 详细数据表格 */}
       <Card title="详细数据">
-        <ProTable<UserStatsRecord>
+        <ProTable
           ref={tableRef}
           request={handleRequest}
           columns={columns}
