@@ -72,3 +72,36 @@ export interface UserTableItem extends UserInfo {
   department?: string;
   lastLoginAt?: string;
 }
+
+// 用户统计关键指标
+export interface UserStatsMetrics {
+  todayActive: number;        // 今日活跃
+  todayActiveGrowth: number;  // 日环比 %
+  weekActive: number;         // 本周活跃
+  weekActiveGrowth: number;   // 周环比 %
+  totalUsers: number;         // 总用户
+  totalGrowth: number;        // 月增长率 %
+  avgOnlineTime: number;      // 平均在线时长（分钟）
+  avgOnlineGrowth: number;    // 日环比 %
+}
+
+// 趋势图数据点
+export interface TrendDataPoint {
+  date: string;   // 日期 "MM-DD"
+  value: number;  // 活跃用户数
+}
+
+// 时段分布数据
+export interface HourlyDataPoint {
+  hour: number;   // 小时 0-23
+  value: number;  // 活跃用户数
+}
+
+// 详细统计记录
+export interface UserStatsRecord {
+  date: string;              // 日期 "YYYY-MM-DD"
+  activeUsers: number;       // 活跃用户数
+  newUsers: number;          // 新增用户
+  loginCount: number;        // 登录次数
+  avgOnlineMinutes: number;  // 平均在线时长（分钟）
+}
