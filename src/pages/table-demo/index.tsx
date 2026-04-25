@@ -41,16 +41,10 @@ const TableDemoPage: React.FC = () => {
   // 工具栏操作
   const toolbarActions = (
     <Space>
-      <Button
-        icon={<ReloadOutlined />}
-        onClick={() => tableRef.current?.reload()}
-      >
+      <Button icon={<ReloadOutlined />} onClick={() => tableRef.current?.reload()}>
         刷新
       </Button>
-      <Button
-        icon={<ReloadOutlined />}
-        onClick={() => tableRef.current?.reload(true)}
-      >
+      <Button icon={<ReloadOutlined />} onClick={() => tableRef.current?.reload(true)}>
         重置
       </Button>
     </Space>
