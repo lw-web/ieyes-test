@@ -17,6 +17,9 @@ build
 # Claude
 .claude
 
+# Skills directory
+skills/
+
 # OS
 Thumbs.db
 
