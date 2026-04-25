@@ -22,6 +22,10 @@ export default defineConfig({
       component: '@/pages/table-demo',
     },
     {
+      path: '/user-stats',
+      component: '@/pages/user-stats',
+    },
+    {
       path: '/figjam-demo',
       component: '@/pages/figjam-demo',
     },
