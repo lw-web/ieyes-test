@@ -56,8 +56,7 @@ const MetricsCards: React.FC<MetricsCardsProps> = ({ data, loading }) => {
       prefix: <ClockCircleOutlined />,
       suffix: (
         <>
-          分钟
-          {renderTrend(data.avgOnlineGrowth)}
+          {renderTrend(data.avgOnlineGrowth)} 分钟
         </>
       ),
     },

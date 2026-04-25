@@ -20,7 +20,6 @@ import {
 } from '@/services/mock-user-stats';
 import { columns, defaultColumnConfig } from './config';
 import type { UserStatsMetrics, TrendDataPoint, HourlyDataPoint } from '@/services';
-import dayjs from 'dayjs';
 
 const { RangePicker } = DatePicker;
 
@@ -57,7 +56,8 @@ const UserStatsPage: React.FC = () => {
   // 初始加载
   React.useEffect(() => {
     loadAllData();
-  }, [loadAllData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 刷新按钮
   const handleRefresh = () => {
