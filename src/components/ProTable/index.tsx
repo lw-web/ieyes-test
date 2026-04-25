@@ -171,5 +171,11 @@ ProTableWithRef.displayName = 'ProTable';
 export default ProTableWithRef;
 
 // 导出类型
-export type { ProTableProps, ProTableRef, ColumnConfig, TableQueryParams } from './types';
+export type {
+  ProTableProps,
+  ProTableRef,
+  ColumnConfig,
+  TableQueryParams,
+  ProColumns,
+} from './types';
 export type { ColumnConfigItem } from './useColumnConfig';

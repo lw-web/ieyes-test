@@ -7,7 +7,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Card, Button, Space, DatePicker, message } from 'antd';
 import { ReloadOutlined, SyncOutlined } from '@ant-design/icons';
 import type { ProTableRef } from '@/components/ProTable';
-import type { UserStatsRecord, RangePickerProps } from 'antd/es/date-picker';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import MetricsCards from './components/MetricsCards';
 import TrendCharts from './components/TrendCharts';
 import ProTable from '@/components/ProTable';

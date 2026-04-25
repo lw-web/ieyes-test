@@ -3,7 +3,7 @@
  * 表格列定义、格式化函数等
  */
 
-import type { ProColumns } from '@/components/ProTable';
+import type { ProColumns, ColumnConfig } from '@/components/ProTable';
 import type { UserStatsRecord } from '@/services';
 
 // 格式化日期
@@ -63,10 +63,10 @@ export const columns: ProColumns<UserStatsRecord>[] = [
 ];
 
 // 默认列配置
-export const defaultColumnConfig = {
-  date: { show: true, width: 120, fixed: 'left' },
-  activeUsers: { show: true, width: 120 },
-  newUsers: { show: true, width: 100 },
-  loginCount: { show: true, width: 120 },
-  avgOnlineMinutes: { show: true, width: 150 },
-};
+export const defaultColumnConfig: ColumnConfig[] = [
+  { key: 'date', label: '日期', visible: true, fixed: 'left', width: 120 },
+  { key: 'activeUsers', label: '活跃用户数', visible: true, width: 120 },
+  { key: 'newUsers', label: '新增用户', visible: true, width: 100 },
+  { key: 'loginCount', label: '登录次数', visible: true, width: 120 },
+  { key: 'avgOnlineMinutes', label: '平均在线时长', visible: true, width: 150 },
+];

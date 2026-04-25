@@ -5,6 +5,9 @@
 import { ColumnType } from 'antd/es/table';
 import { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface';
 
+// ProColumns 类型别名（为了兼容性，与 ColumnType 相同）
+export type ProColumns<T = any> = ColumnType<T>;
+
 // 列配置项
 export interface ColumnConfig<T = any> {
   key: string;
