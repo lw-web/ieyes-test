@@ -1,0 +1,58 @@
+/**
+ * 用户活跃度统计页面样式
+ */
+
+.user-stats-page {
+  // 指标卡片区域
+  .metrics-cards {
+    margin-bottom: 16px;
+  }
+
+  // 趋势图表区域
+  .trend-charts {
+    margin-bottom: 16px;
+  }
+
+  // 数据表格区域
+  .data-table {
+    :global {
+      .ant-card-body {
+        padding: 0;
+      }
+    }
+  }
+
+  // 统计卡片样式
+  .statistic-card {
+    text-align: center;
+
+    .ant-statistic-title {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    .ant-statistic-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // 响应式布局
+  @media (max-width: @screen-lg) {
+    .metrics-cards {
+      .ant-col {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  @media (max-width: @screen-sm) {
+    .metrics-cards {
+      .ant-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
