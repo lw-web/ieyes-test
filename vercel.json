@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/**/*.{js,ts}": {
+    "api/**/*.js": {
       "memory": 1024,
       "maxDuration": 10
     }
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "source": "/umi.js",
+      "source": "/umi[.]js",
       "headers": [
         {
           "key": "Cache-Control",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "source": "/umi.css",
+      "source": "/umi[.]css",
       "headers": [
         {
           "key": "Cache-Control",
@@ -46,25 +46,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/umi\\.(js|css)$",
-      "dest": "/$0"
-    },
-    {
-      "src": "/favicon\\.ico$",
-      "dest": "/$0"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
   ]
 }
