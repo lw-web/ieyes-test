@@ -5,21 +5,17 @@
   "installCommand": "npm install",
   "framework": null,
   "functions": {
-    "api/**/*.ts": {
+    "api/**/*.{js,ts}": {
       "memory": 1024,
       "maxDuration": 10
     }
   },
   "routes": [
     {
-      "src": "^/api/(.*)$",
-      "dest": "/api/$1"
-    },
-    {
       "handle": "filesystem"
     },
     {
-      "src": "^/(.*)$",
+      "src": "^/(?!api/)(.*)$",
       "dest": "/index.html"
     }
   ],
