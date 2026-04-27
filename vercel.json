@@ -28,10 +28,7 @@
       "destination": "/api/proxy/catfact/:match*"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/:path((?!umi\\.js|umi\\.css).*)*",
       "destination": "/index.html"
     }
   ],
