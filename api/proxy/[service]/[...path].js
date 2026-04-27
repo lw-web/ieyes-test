@@ -9,7 +9,7 @@ const API_TARGETS = {
   catfact: 'https://catfact.ninja',
 };
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // 启用 CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     }
 
     // 构建目标 URL
-    const pathString = path?.join('/') || '';
+    const pathString = Array.isArray(path) ? path.join('/') : (path || '');
     // 排除 Vercel 的查询参数
     const filteredQuery = {};
     Object.entries(req.query).forEach(([key, value]) => {
@@ -85,4 +85,4 @@ export default async function handler(req, res) {
       message: error.message || 'Unknown error'
     });
   }
-}
+};
