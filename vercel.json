@@ -12,22 +12,6 @@
   },
   "routes": [
     {
-      "src": "^/api/jsonplaceholder/(.*)$",
-      "dest": "/api/proxy/jsonplaceholder/$1"
-    },
-    {
-      "src": "^/api/fakestore/(.*)$",
-      "dest": "/api/proxy/fakestore/$1"
-    },
-    {
-      "src": "^/api/randomuser/(.*)$",
-      "dest": "/api/proxy/randomuser/$1"
-    },
-    {
-      "src": "^/api/catfact/(.*)$",
-      "dest": "/api/proxy/catfact/$1"
-    },
-    {
       "handle": "filesystem"
     },
     {
