@@ -9,10 +9,14 @@ import type { UserInfo } from './types';
 // ==================== Vercel Serverless Functions 代理 ====================
 // 开发环境使用本地代理，生产环境使用 Serverless Functions
 
-const isDev = process.env.NODE_ENV === 'development';
-
-// 代理基础路径
+// 使用更可靠的环境检测方法
 const getProxyBase = (service: string) => {
+  // 检测是否在 localhost 开发环境
+  const isDev = typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' ||
+     window.location.hostname === '127.0.0.1' ||
+     window.location.hostname === '');
+
   if (isDev) {
     // 开发环境：使用 webpack proxy
     return `/api/${service}`;
