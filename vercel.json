@@ -28,7 +28,10 @@
       "destination": "/api/proxy/catfact/:match*"
     },
     {
-      "source": "/:path*",
+      "handle": "filesystem"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
@@ -51,7 +54,16 @@
       ]
     },
     {
-      "source": "/static/(.*)",
+      "source": "/umi.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/umi.css",
       "headers": [
         {
           "key": "Cache-Control",
@@ -59,7 +71,5 @@
         }
       ]
     }
-  ],
-  "trailingSlash": false,
-  "cleanUrls": true
+  ]
 }
