@@ -1,9 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "devCommand": "npm start",
-  "installCommand": "npm install",
-  "framework": null,
   "functions": {
     "api/**/*.{js,ts}": {
       "memory": 1024,
@@ -50,10 +47,6 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
     {
       "source": "/:path*",
       "destination": "/index.html"
