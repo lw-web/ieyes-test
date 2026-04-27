@@ -4,7 +4,8 @@
   "private": true,
   "description": "UmiJS 3.5 + TypeScript + Ant Design 5 + AntV G2 Project",
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider umi dev",
+    "start": "node server.production.js",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider umi dev",
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider umi build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,less,md}\"",
@@ -21,6 +22,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "^1.8.32",
