@@ -27,13 +27,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // 调试信息
+    console.log('=== Proxy Request ===');
+    console.log('URL:', req.url);
+    console.log('Method:', req.method);
+    console.log('Query:', req.query);
+    console.log('Headers:', req.headers);
+
     // 获取服务名称和路径
     const service = req.query.service as string;
     const path = req.query.path as string[];
 
+    console.log('Service:', service);
+    console.log('Path:', path);
+
     const targetBase = API_TARGETS[service];
     if (!targetBase) {
-      return res.status(404).json({ error: 'Service not found', service });
+      console.error('Service not found:', service);
+      return res.status(404).json({
+        error: 'Service not found',
+        service,
+        available: Object.keys(API_TARGETS)
+      });
     }
 
     // 构建目标 URL
@@ -48,6 +63,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const queryString = new URLSearchParams(filteredQuery).toString();
     const targetUrl = `${targetBase}${pathString ? '/' + pathString : ''}${queryString ? '?' + queryString : ''}`;
 
+    console.log('Target URL:', targetUrl);
+
     // 转发请求
     const response = await fetch(targetUrl, {
       method: req.method,
@@ -58,11 +75,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ...(req.method !== 'GET' && req.method !== 'HEAD' && { body: JSON.stringify(req.body) }),
     });
 
+    console.log('Response status:', response.status);
+
     const data = await response.json();
+    console.log('Response data received');
 
     return res.status(response.status).json(data);
   } catch (error) {
     console.error('Proxy error:', error);
-    return res.status(500).json({ error: 'Proxy request failed', message: error instanceof Error ? error.message : 'Unknown error' });
+    return res.status(500).json({
+      error: 'Proxy request failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 }
