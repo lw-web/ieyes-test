@@ -46,14 +46,25 @@
       ]
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "src": "/umi\\.(js|css)$",
+      "dest": "/$0"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/favicon\\.ico$",
+      "dest": "/$0"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
