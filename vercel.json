@@ -10,26 +10,29 @@
       "maxDuration": 10
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/jsonplaceholder/:match*",
-      "destination": "/api/proxy/jsonplaceholder/:match*"
+      "src": "/api/jsonplaceholder/(.*)",
+      "dest": "/api/proxy/jsonplaceholder/$1"
     },
     {
-      "source": "/api/fakestore/:match*",
-      "destination": "/api/proxy/fakestore/:match*"
+      "src": "/api/fakestore/(.*)",
+      "dest": "/api/proxy/fakestore/$1"
     },
     {
-      "source": "/api/randomuser/:match*",
-      "destination": "/api/proxy/randomuser/:match*"
+      "src": "/api/randomuser/(.*)",
+      "dest": "/api/proxy/randomuser/$1"
     },
     {
-      "source": "/api/catfact/:match*",
-      "destination": "/api/proxy/catfact/:match*"
+      "src": "/api/catfact/(.*)",
+      "dest": "/api/proxy/catfact/$1"
     },
     {
-      "source": "/:path((?!umi\\.js|umi\\.css).*)*",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "headers": [
