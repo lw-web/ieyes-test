@@ -1,6 +1,8 @@
 // Vercel Serverless Function - 通用代理处理器
 // 处理所有外部 API 请求的代理
 
+const fetch = require('node-fetch');
+
 // 外部 API 配置
 const API_TARGETS = {
   jsonplaceholder: 'https://jsonplaceholder.typicode.com',
